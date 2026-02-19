@@ -1,0 +1,329 @@
+/* ✅ Google font import must be first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ✅ Tailwind import should also be at the very top, but after fonts */
+@import "tailwindcss";
+
+/* 2) Design tokens */
+:root {
+    --primary-blue: #0094d9;
+    --dark-blue: #005a8f;
+    --danger-red: #f1416c;
+    --light-bg: #f7fafc;
+    --surface: #ffffff;
+    --main-text: #212b36;
+    --muted-text: #637381;
+    --border: #e6e8eb;
+    --radius: 12px;
+    --card-shadow: 0 6px 24px rgba(2, 16, 28, 0.06);
+}
+
+/* 3) Base reset */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--light-bg);
+    color: var(--main-text);
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* 4) Page scaffolding helpers */
+.page {
+    padding: 20px 24px;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* 5) Card */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+}
+
+.card-header {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.02rem;
+    color: var(--dark-blue);
+}
+
+.card-body {
+    padding: 16px 18px;
+}
+
+/* 6) Buttons */
+.btn {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    transition: transform .06s ease, background .2s ease, opacity .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-primary {
+    color: #fff;
+    background: linear-gradient(90deg, var(--primary-blue), var(--dark-blue));
+}
+
+.btn-primary:hover {
+    opacity: .92;
+}
+
+.btn-danger {
+    background: var(--danger-red);
+    color: #fff;
+}
+
+.btn-danger:hover {
+    opacity: .93;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--main-text);
+}
+
+.icon-btn {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fff;
+}
+
+/* 7) Inputs */
+input,
+textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #fff;
+    color: var(--main-text);
+    outline: none;
+    transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+/* Allow selects to size naturally (or set a min width) */
+select {
+    width: auto;
+    /* ← key change */
+    min-width: 220px;
+    /* optional: matches surveillance look */
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #fff;
+    color: var(--main-text);
+    outline: none;
+    transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #9aa4ae;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgb(0 148 217 / 16%);
+}
+
+/* 8) Tables */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.table thead th {
+    background: #eaf6fd;
+    color: var(--dark-blue);
+    font-weight: 600;
+    font-size: .92rem;
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.table tbody td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.table tbody tr:nth-child(even) {
+    background: #fafcff;
+}
+
+.table tbody tr:hover {
+    background: #f4faff;
+}
+
+/* 9) Chips / badges */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+}
+
+.chip-success {
+    background: #e8fbef;
+    color: #087443;
+    border-color: #c9f3d9;
+}
+
+.chip-danger {
+    background: #ffe9ee;
+    color: #a11234;
+    border-color: #ffd0db;
+}
+
+.chip-muted {
+    background: #eef2f6;
+    color: #475569;
+    border-color: #d9e0e7;
+}
+
+/* 10) Scrollbar */
+*::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #cfd6dc;
+    border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: #b8c0c7;
+}
+
+/* Animations */
+@keyframes truckSmoothFullRide {
+    0% {
+        transform: translateX(-60px);
+        opacity: 1;
+    }
+
+    35% {
+        transform: translateX(100px);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateX(100px);
+        opacity: 1;
+    }
+
+    85% {
+        transform: translateX(270px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(320px);
+        opacity: 0;
+    }
+}
+
+.truck-loop {
+    animation: truckSmoothFullRide 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes slideInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-slideInUp {
+    animation: slideInUp 0.3s ease-out;
+}
+
+@layer utilities {
+  .animate-hooterglow {
+    animation: hooterglow 0.7s alternate infinite;
+  }
+  @keyframes hooterglow {
+    0% { box-shadow: 0 0 10px 2px #f43f5e; }
+    100% { box-shadow: 0 0 24px 10px #f43f5e99, 0 0 40px 16px #fdba74cc; }
+  }
+}
+
+
+
+
+
+
+
+
+
