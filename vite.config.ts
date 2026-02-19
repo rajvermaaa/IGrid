@@ -83,6 +83,9 @@ export default defineConfig({
           { src: "/xyz/icons/apple-icon-180.png", sizes: "512x512", type: "image/png", purpose: "any maskable" },
         ],
       },
+      workbox: {
+          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB (default is 2MB)
+  },
     }),
   ],
   publicDir: "public",
