@@ -553,7 +553,7 @@ const App: React.FC = () => {
           <Route path="/safety-command" element={<SafetyCommandCenter/>} />
           <Route path="/system-performance" element={<SystemPerformanceDashboard/>} />
           <Route path="/vehicle-logistics" element={<VehicleLogisticsDashboard/>} />
-          <Route path="//attendence" element={<SurveillanceDashboard/>} />
+          <Route path="/attendence" element={<SurveillanceDashboard/>} />
           <Route path="/central-command" element={<CentralCommand/>} />
 
           {/* {isSuperAdmin && ( */}
