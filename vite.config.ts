@@ -106,7 +106,9 @@ export default defineConfig({
       },
     },
   },
-  base: "/xyz/", // adjust as needed for your deployment
+  // base: "/xyz/", // adjust as needed for your deployment
+  base: "/",
+  
 });
 
 

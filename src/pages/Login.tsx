@@ -128,7 +128,7 @@ const Login: React.FC = () => {
       <AnimatePresence>{showLoader && <Loader />}</AnimatePresence>
 
       <img
-        src="/xyz/bgfinal3.jpg"
+        src="/bgfinal3.jpg"
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover object-center z-0"
       />
@@ -154,7 +154,7 @@ const Login: React.FC = () => {
         <div className="mb-6 text-center">
           <div className="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden shadow-sm border border-white/70 bg-white/80">
             <img
-              src="/xyz/trimmed_logo.png"
+              src="/trimmed_logo.png"
               alt="Logo"
               className="object-contain w-full h-full p-1"
             />
