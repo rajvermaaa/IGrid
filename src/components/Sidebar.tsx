@@ -754,7 +754,7 @@ import {
   SidebarInset,
 } from "../components/ui/sidebar";
 
-const brandSrc = "/xyz/blkwhtlogo.png";
+const brandSrc = "/blkwhtlogo.png";
 
 export default function AppSidebarLayout() {
   const navigate = useNavigate();
