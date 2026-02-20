@@ -280,7 +280,7 @@ function SkeletonKPICard() {
 
 function SkeletonChart() {
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm animate-pulse">
+    <div className="bg-white rounded-lg p-4 sm:p-6 shadow-sm animate-pulse">
       <div className="h-5 bg-gray-200 rounded w-48 mb-4" />
       <div className="h-80 bg-gray-100 rounded" />
     </div>
@@ -456,7 +456,7 @@ export function SystemPerformanceDashboard() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <PageHeader
           title={
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <button
                 onClick={() => navigate(-1)}
                 className="group flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:shadow transition-all duration-150"
@@ -470,7 +470,7 @@ export function SystemPerformanceDashboard() {
         >
           <div className="text-sm text-gray-600">Last updated: {formatLastUpdated()}</div>
         </PageHeader>
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto p-4 sm:p-6">
           <ErrorState message={error} onRetry={retry} />
         </div>
       </div>
@@ -485,7 +485,7 @@ export function SystemPerformanceDashboard() {
       {/* ── Header ── */}
       <PageHeader
         title={
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <button
               onClick={() => navigate(-1)}
               className="group flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:shadow transition-all duration-150"
@@ -497,7 +497,7 @@ export function SystemPerformanceDashboard() {
           </div>
         }
       >
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
 
           {/* Time Range Picker */}
           <div className="relative">
@@ -558,12 +558,12 @@ export function SystemPerformanceDashboard() {
       <div className="flex flex-1 overflow-hidden relative">
 
         {/* ── Main Content ── */}
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto p-4 sm:p-6">
 
           {/* Loading skeleton */}
           {isLoading && !metrics ? (
             <>
-              <div className="grid grid-cols-4 gap-6 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
                 {[...Array(4)].map((_, i) => <SkeletonKPICard key={i} />)}
               </div>
               <SkeletonChart />
@@ -610,7 +610,7 @@ export function SystemPerformanceDashboard() {
               </div>
 
               {/* ── KPI Cards ── */}
-              <div className="grid grid-cols-4 gap-6 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
                 <KPICard
                   title="Latency (P95/P99)"
                   value={`${metrics.latencyP95}ms / ${metrics.latencyP99}ms`}
@@ -642,12 +642,12 @@ export function SystemPerformanceDashboard() {
               </div>
 
               {/* ── Performance Trend Chart ── */}
-              <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+              <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6">
                 <div className="mb-4">
                   <h3 className="text-lg font-semibold text-gray-800">Latency vs Throughput Trend</h3>
                   <p className="text-sm text-gray-500 mt-1">Performance trend over time</p>
                 </div>
-                <ResponsiveContainer width="100%" height={320}>
+                <ResponsiveContainer width="100%" height={window.innerWidth < 640 ? 240 : 320}>
                   <AreaChart data={performanceTrend}>
                     <defs>
                       <linearGradient id="colorLatency" x1="0" y1="0" x2="0" y2="1">
@@ -668,10 +668,10 @@ export function SystemPerformanceDashboard() {
               </div>
 
               {/* ── Distribution / Health Row ── */}
-              <div className="grid grid-cols-3 gap-6 mb-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
 
                 {/* Latency Distribution */}
-                <div className="bg-white rounded-lg shadow-sm p-6">
+                <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                   <div className="mb-4">
                     <h3 className="text-base font-semibold text-gray-800">Latency Distribution</h3>
                     <p className="text-xs text-gray-500 mt-1">Response time analysis</p>
@@ -699,12 +699,12 @@ export function SystemPerformanceDashboard() {
                 </div>
 
                 {/* Error Breakdown */}
-                <div className="bg-white rounded-lg shadow-sm p-6">
+                <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                   <div className="mb-4">
                     <h3 className="text-base font-semibold text-gray-800">Error Breakdown</h3>
                     <p className="text-xs text-gray-500 mt-1">By component type</p>
                   </div>
-                  <ResponsiveContainer width="100%" height={200}>
+                  <ResponsiveContainer width="100%" height={180}>
                     <PieChart>
                       <Pie data={errorBreakdown} cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={5} dataKey="value">
                         {errorBreakdown.map((entry, i) => <Cell key={i} fill={entry.color} />)}
@@ -726,12 +726,12 @@ export function SystemPerformanceDashboard() {
                 </div>
 
                 {/* System Health Grid */}
-                <div className="bg-white rounded-lg shadow-sm p-6">
+                <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                   <div className="mb-4">
                     <h3 className="text-base font-semibold text-gray-800">System Health Status</h3>
                     <p className="text-xs text-gray-500 mt-1">Camera / Sensor status</p>
                   </div>
-                  <div className="grid grid-cols-4 gap-2">
+                  <div className="grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-4 gap-2">
                     {systemHealth.map(sys => (
                       <div key={sys.id} className="group relative" title={`${sys.name}: ${sys.latency}ms`}>
                         <div className={`aspect-square rounded ${getHealthStatusColor(sys.status)} hover:opacity-80 transition-opacity cursor-pointer flex items-center justify-center`}>
@@ -753,7 +753,7 @@ export function SystemPerformanceDashboard() {
               {/* ── Request Logs Table ── */}
               <div className="bg-white rounded-lg shadow-sm">
                 <div className="px-6 py-4 border-b border-gray-200">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
                       <h3 className="text-lg font-semibold text-gray-800">Request Logs</h3>
                       <p className="text-sm text-gray-500 mt-1">Detailed performance logs</p>
@@ -769,7 +769,7 @@ export function SystemPerformanceDashboard() {
                   </div>
 
                   {/* Status Code Filters */}
-                  <div className="mt-4 flex items-center gap-2">
+                  <div className="mt-4 flex flex-wrap items-center gap-2">
                     <span className="text-sm text-gray-600">Filter by Status:</span>
                     {[200, 500].map(code => (
                       <button
@@ -795,7 +795,7 @@ export function SystemPerformanceDashboard() {
                 {paginatedLogs && paginatedLogs.logs.length > 0 ? (
                   <>
                     <div className="overflow-x-auto">
-                      <table className="w-full">
+                      <table className="w-full min-w-[700px]">
                         <thead className="bg-gray-50 border-b border-gray-200">
                           <tr>
                             {['Request ID', 'Camera Code', 'Hazard Type', 'Latency (ms)', 'Status Code', 'Timestamp'].map(h => (
@@ -834,7 +834,7 @@ export function SystemPerformanceDashboard() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+                    <div className="px-4 sm:px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between">
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-600">Rows per page:</span>
                         <select
@@ -882,9 +882,9 @@ export function SystemPerformanceDashboard() {
         {filtersOpen && (
           <>
             <div className="fixed inset-0 z-40 bg-black/20" onClick={() => setFiltersOpen(false)} />
-            <div className="fixed right-0 top-0 h-screen w-80 bg-white shadow-2xl z-50 flex flex-col">
+            <div className="fixed inset-y-0 right-0 w-full sm:w-80 bg-white shadow-2xl z-50 flex flex-col">
 
-              <div className="p-6 overflow-y-auto flex-1">
+              <div className="p-4 sm:p-6 overflow-y-auto flex-1">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
                   <button onClick={() => setFiltersOpen(false)} className="p-1 hover:bg-gray-100 rounded">

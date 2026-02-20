@@ -511,7 +511,7 @@ export function SafetyCommandCenter() {
         }>
           <div className="flex items-center gap-2 text-sm text-gray-600"><Clock className="w-4 h-4" /><span>Last updated: {formatLastUpdated()}</span></div>
         </PageHeader>
-        <div className="flex-1 overflow-auto p-6"><ErrorState message={error} onRetry={retry} /></div>
+        <div className="flex-1 overflow-auto p-4 sm:p-6"><ErrorState message={error} onRetry={retry} /></div>
       </div>
     );
   }
@@ -532,7 +532,7 @@ export function SafetyCommandCenter() {
           <span>Safety Command Center</span>
         </div>
       }>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4 justify-between">
 
           {filtered && (
             <div className="flex items-center gap-2">
@@ -643,12 +643,11 @@ export function SafetyCommandCenter() {
       </PageHeader>
 
       {/* ── Body ── */}
-      <div className="flex-1 overflow-auto p-6">
-
+      <div className="flex-1 overflow-auto p-4 sm:p-6">
         {isLoading && !dashboardData ? (
           <>
-            <div className="grid grid-cols-3 gap-4 mb-6">{[...Array(6)].map((_, i) => <SkeletonKPICard key={i} />)}</div>
-            <div className="grid grid-cols-3 gap-6 mb-6">{[...Array(3)].map((_, i) => <SkeletonChart key={i} />)}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">{[...Array(6)].map((_, i) => <SkeletonKPICard key={i} />)}</div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">{[...Array(3)].map((_, i) => <SkeletonChart key={i} />)}</div>
             <SkeletonChart /><div className="mt-6"><SkeletonTable /></div>
           </>
         ) : filtered ? (
@@ -656,7 +655,7 @@ export function SafetyCommandCenter() {
             {filtered.noneEnabled && <NoPPEBanner />}
 
             {/* ── KPI Cards ── */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
               <KPICard title="Total Safety Events"    value={filtered.kpis.totalEvents}
                 subtitle="Filtered by active features" icon={<Activity className="w-5 h-5" />} trend="down" trendValue="-3" />
               <KPICard title="Open Incidents"          value={filtered.kpis.openIncidents}
@@ -678,7 +677,7 @@ export function SafetyCommandCenter() {
             </div>
 
             {/* ── Risk Metrics Row ── */}
-            <div className="grid grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
               {/* Severity Breakdown */}
               <div className="bg-white rounded-lg p-5 shadow-sm">
                 <div className="flex items-center justify-between mb-4">
@@ -743,7 +742,7 @@ export function SafetyCommandCenter() {
                 <span className="flex items-center gap-1.5 text-xs text-blue-600"><Filter className="w-3.5 h-3.5" />Filtered by active PPE features</span>
               </div>
               {filtered.departmentViolations.length > 0 ? (
-                <ResponsiveContainer width="100%" height={280}>
+                <ResponsiveContainer width="100%" height={window.innerWidth < 640 ? 220 : 280}>
                   <BarChart data={filtered.departmentViolations}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis dataKey="department" tick={{ fontSize: 12 }} angle={-15} textAnchor="end" height={80} />
@@ -756,7 +755,7 @@ export function SafetyCommandCenter() {
             </div>
 
             {/* ── System Indicators ── */}
-            <div className="grid grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
               <div className="bg-white rounded-lg p-5 shadow-sm">
                 <div className="text-sm text-gray-500 mb-2">Risk Level</div>
                 <StatusBadge status={filtered.riskLevel as any} />
@@ -790,7 +789,7 @@ export function SafetyCommandCenter() {
               </div>
               {filtered.filteredIncidents.length > 0 ? (
                 <div className="overflow-x-auto">
-                  <table className="w-full">
+                  <table className="w-full min-w-[900px]">
                     <thead className="bg-gray-50 border-b border-gray-200">
                       <tr>
                         {['Plant','Unit','Station','Camera','Violation Type','Missing PPE','Severity','AI Confidence','Status','Time','Action'].map(h => (
@@ -826,7 +825,7 @@ export function SafetyCommandCenter() {
             </div>
 
             {/* ── PPE Analytics Charts ── */}
-            <div className="grid grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
               {[
                 { title: 'Feature-wise Violations', data: filtered.featureViolations, key: 'feature', color: '#3b82f6' },
                 { title: 'Section-wise Violations', data: filtered.sectionViolations, key: 'section', color: '#8b5cf6' },
@@ -882,15 +881,15 @@ export function SafetyCommandCenter() {
                   </div>
                 </div>
               </div>
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 {filtered.filteredEvents.length > 0 ? (
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {filtered.filteredEvents.slice(0, 8).map(event => (
                       <div key={event.id}
                         className="group relative bg-gray-50 hover:bg-blue-50/50 rounded-lg border border-gray-200 hover:border-blue-300 transition-all duration-200 overflow-hidden cursor-pointer"
                         onClick={() => { setSelectedImage(event.imageUrl); setSelectedEvent(event); }}>
                         <div className="flex gap-4">
-                          <div className="relative w-32 h-32 flex-shrink-0">
+                          <div className="relative w-32 h-35 flex-shrink-0">
                             <img src={event.imageUrl} alt={`Event ${event.id}`} className="w-full h-full object-cover" />
                             <div className="absolute top-2 left-2">
                               <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-semibold shadow-sm ${event.severity === 'High' ? 'bg-red-600 text-white' : event.severity === 'Medium' ? 'bg-yellow-500 text-white' : 'bg-green-600 text-white'}`}>
@@ -948,7 +947,7 @@ export function SafetyCommandCenter() {
 
         {/* ── Event Detail Modal ── */}
         {selectedImage && selectedEvent && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6"
             onClick={() => { setSelectedImage(null); setSelectedEvent(null); }}>
             <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
               onClick={e => e.stopPropagation()}>
@@ -961,8 +960,8 @@ export function SafetyCommandCenter() {
                   <X className="w-5 h-5 text-gray-600" />
                 </button>
               </div>
-              <div className="grid grid-cols-2 divide-x divide-gray-200">
-                <div className="p-6 bg-gray-50">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:divide-x divide-gray-200">
+                <div className="p-4 sm:p-6 bg-gray-50">
                   <img src={selectedImage} alt={`PPE Event ${selectedEvent.id}`} className="w-full rounded-lg shadow-lg border border-gray-200" />
                   <div className="mt-4 flex items-center justify-between">
                     <span className={`px-3 py-1.5 rounded-lg text-sm font-semibold ${selectedEvent.severity === 'High' ? 'bg-red-100 text-red-700 border border-red-300' : selectedEvent.severity === 'Medium' ? 'bg-yellow-100 text-yellow-700 border border-yellow-300' : 'bg-green-100 text-green-700 border border-green-300'}`}>
@@ -974,7 +973,7 @@ export function SafetyCommandCenter() {
                     </div>
                   </div>
                 </div>
-                <div className="p-6 overflow-y-auto max-h-[70vh]">
+                <div className="p-4 sm:p-6 overflow-y-auto max-h-[70vh]">
                   <div className="space-y-5">
                     <div>
                       <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Location Information</h4>

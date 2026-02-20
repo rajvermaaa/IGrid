@@ -579,7 +579,7 @@ function Modal({
   return (
     <div className="fixed inset-0 bg-white bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={onClose}>
-      <div className={`bg-white rounded-2xl shadow-2xl ${maxW} w-full max-h-[90vh] overflow-y-auto`}
+      <div className={`bg-white rounded-2xl shadow-2xl ${maxW} w-full max-h-[90vh] overflow-y-auto mx-2 sm:mx-0`}
         onClick={e => e.stopPropagation()}>
         <div className={`flex items-center justify-between p-6 border-b border-gray-200 rounded-t-2xl ${headerBg}`}>
           <div className="flex items-center gap-3">
@@ -707,11 +707,11 @@ export function VehicleLogisticsDashboard() {
         </div>
       </PageHeader>
 
-      <div className="flex-1 overflow-auto p-6">
+      <div className="flex-1 overflow-auto p-4 sm:p-6">
 
         {/* ── Search Bar ── */}
         <div className="mb-6">
-          <div className="flex items-center gap-3 max-w-2xl">
+          <div className="flex flex-wrap items-center gap-3 max-w-2xl">
             
             {/* Search Icon OUTSIDE */}
             <Search
@@ -737,13 +737,13 @@ export function VehicleLogisticsDashboard() {
 
         {/* ── KPI Cards ── */}
         {dashboard.isLoading && !dashboard.kpis ? (
-          <div className="grid grid-cols-4 gap-6 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
             {[...Array(4)].map((_, i) => <SkeletonKPI key={i} />)}
           </div>
         ) : dashboard.error && !dashboard.kpis ? (
           <ErrorInline message={dashboard.error} onRetry={dashboard.retry} />
         ) : dashboard.kpis ? (
-          <div className="grid grid-cols-4 gap-6 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
             <div onClick={() => setOpenModal('entries')} className="cursor-pointer">
               <KPICard title="Total Entries Today" value={dashboard.kpis.totalEntriesToday}
                 subtitle="Incoming vehicles" icon={<TrendingUp className="w-5 h-5" />}
@@ -806,7 +806,7 @@ export function VehicleLogisticsDashboard() {
             <EmptyState message={debouncedSearch ? `No vehicles matching "${debouncedSearch}"` : 'No vehicles in this category'} />
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[900px]">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     {['Status','License Plate','Type','Driver','Location','Duration','Action'].map(h => (
@@ -853,7 +853,7 @@ export function VehicleLogisticsDashboard() {
         </div>
 
         {/* ── Traffic Trends + Gate Feed ── */}
-        <div className="grid grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
           <div className="col-span-2 bg-white rounded-lg shadow-sm p-6">
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-800">Today's Traffic Trends</h3>
@@ -862,7 +862,7 @@ export function VehicleLogisticsDashboard() {
             {dashboard.isLoading && dashboard.trafficData.length === 0 ? (
               <div className="h-[300px] bg-gray-100 rounded animate-pulse" />
             ) : (
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={window.innerWidth < 640 ? 220 : 300}>
                 <LineChart data={dashboard.trafficData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="time" tick={{ fontSize: 12 }} />
@@ -922,7 +922,7 @@ export function VehicleLogisticsDashboard() {
           {dashboard.isLoading && dashboard.stations.length === 0 ? (
             <SkeletonStations />
           ) : (
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {dashboard.stations.map(station => (
                 <div key={station.id}
                   onClick={() => { setSelectedStation(station); setOpenModal('dock'); }}
@@ -1030,7 +1030,7 @@ export function VehicleLogisticsDashboard() {
           iconBg="bg-blue-600" title="Register New Vehicle">
           <div className="p-6 space-y-6">
             {/* Type selector */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {(['employee', 'visitor'] as const).map(type => (
                 <button key={type} onClick={() => setRegisterType(type)}
                   className={`p-4 border-2 rounded-xl flex items-center gap-3 transition-all ${
@@ -1297,7 +1297,7 @@ export function VehicleLogisticsDashboard() {
           headerBg="bg-gradient-to-r from-blue-50 to-white">
           <div className="p-6">
             {/* Status / Location / Duration cards */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
                 <div className="flex items-center gap-2 mb-2">
                   <div className={`w-2 h-2 rounded-full ${

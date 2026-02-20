@@ -455,7 +455,7 @@ function SkeletonTable() {
 
 function SkeletonCameraGrid() {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
       {[...Array(6)].map((_, i) => (
         <div key={i} className="bg-white border-2 border-gray-200 rounded-lg p-4 animate-pulse">
           <div className="flex gap-2 mb-3">
@@ -591,7 +591,7 @@ export function SurveillanceDashboard() {
       {/* ── Header ── */}
       <div className="bg-white border-b border-gray-200 px-6 py-4 flex-shrink-0">
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <button
               onClick={() => navigate(-1)}
               className="group flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:shadow transition-all duration-150 flex-shrink-0"
@@ -604,7 +604,7 @@ export function SurveillanceDashboard() {
               <p className="text-sm text-gray-600 mt-1">Real-time monitoring and analytics</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
 
             {/* Date Range Dropdown */}
             <select
@@ -671,7 +671,7 @@ export function SurveillanceDashboard() {
       </div>
 
       {/* ── Content Area ── */}
-      <div className="flex-1 overflow-auto p-6">
+      <div className="flex-1 overflow-auto p-4 sm:p-6">
 
         {/* ══════════════════════════════════════
             OVERVIEW TAB
@@ -691,7 +691,7 @@ export function SurveillanceDashboard() {
               ) : overview.error && !overview.attendanceKPIs ? (
                 <ErrorInline message={overview.error} onRetry={overview.retry} />
               ) : overview.attendanceKPIs ? (
-                <div className="grid grid-cols-6 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                   <StatCard color="green" label="Users Present Today"  value={overview.attendanceKPIs.usersPresent} trend={overview.attendanceKPIs.usersPresentTrend} trendUp icon={<Users className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="red"   label="Users Absent Today"   value={overview.attendanceKPIs.usersAbsent}  trend={overview.attendanceKPIs.usersAbsentTrend}  trendUp={false} icon={<UserX className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="green" label="First IN Record"      value={overview.attendanceKPIs.firstInCount}  trend={overview.attendanceKPIs.firstInTrend}     trendUp={false} icon={<Clock className="w-8 h-8 text-gray-400" />} />
@@ -711,7 +711,7 @@ export function SurveillanceDashboard() {
               {overview.isLoading && !overview.securityKPIs ? (
                 <SkeletonKPIRow cols={6} />
               ) : overview.securityKPIs ? (
-                <div className="grid grid-cols-6 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                   <StatCard color="red"    label="Total Intrusions Today" value={overview.securityKPIs.totalIntrusions}    trend={overview.securityKPIs.intrusionsTrend} trendUp icon={<Shield className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="red"    label="Unmapped Persons"       value={overview.securityKPIs.unmappedPersons}    icon={<Users className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="red"    label="Unknown Detect"         value={overview.securityKPIs.unknownDetections}  icon={<AlertTriangle className="w-8 h-8 text-gray-400" />} />
@@ -731,7 +731,7 @@ export function SurveillanceDashboard() {
               {overview.isLoading && !overview.cameraKPIs ? (
                 <SkeletonKPIRow cols={4} />
               ) : overview.cameraKPIs ? (
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <StatCard color="blue"   label="Active Cameras"     value={overview.cameraKPIs.activeCameras}        icon={<Camera className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="orange" label="Cameras with Alerts" value={overview.cameraKPIs.camerasWithAlerts}   icon={<AlertTriangle className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="blue"   label="Total Detections"   value={overview.cameraKPIs.totalDetections}      trend={overview.cameraKPIs.totalDetectionsTrend} trendUp icon={<Eye className="w-8 h-8 text-gray-400" />} />
@@ -761,7 +761,7 @@ export function SurveillanceDashboard() {
             </div>
 
             {/* Live Camera Grid + Events Feed */}
-            <div className="grid grid-cols-[60%_40%] gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-[60%_40%] gap-4 sm:gap-6">
 
               {/* Live Camera Grid */}
               <div className="bg-white rounded-lg shadow-sm p-6">
@@ -781,7 +781,7 @@ export function SurveillanceDashboard() {
                 {overview.isLoading && overview.liveCameras.length === 0 ? (
                   <SkeletonCameraGrid />
                 ) : (
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                     {overview.liveCameras.map(cam => {
                       const s = CAMERA_STATUS_STYLES[cam.status] ?? CAMERA_STATUS_STYLES['normal'];
                       const hasAlert = cam.alerts > 0;
@@ -871,7 +871,7 @@ export function SurveillanceDashboard() {
                               </span>
                             </div>
                             <p className="text-xs text-gray-600 mb-1">{event.location}</p>
-                            <div className="flex items-center gap-2">
+                            <div className="flex flex-wrap items-center gap-2">
                               <span className="text-xs text-gray-500">Confidence:</span>
                               <div className="flex-1 max-w-[80px] bg-gray-200 rounded-full h-1.5">
                                 <div
@@ -903,7 +903,7 @@ export function SurveillanceDashboard() {
                   <h2 className="text-lg font-bold text-gray-900">Daily Attendance Summary</h2>
                   <p className="text-sm text-gray-600">Complete attendance records for today</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                 {/* Search Icon OUTSIDE */}
                 <Search
                   className={`w-4 h-4 ${
@@ -933,7 +933,7 @@ export function SurveillanceDashboard() {
               <EmptyTableState message={searchQuery ? `No records matching "${searchQuery}"` : 'No attendance records found'} />
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full min-w-[900px]">
                   <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
                       {['User Name','Employee ID','First Seen','Last Seen','Total Duration','Status','Late Entry','Violations'].map(h => (
@@ -1014,7 +1014,7 @@ export function SurveillanceDashboard() {
                     <EmptyTableState message="No active visitors at this time" />
                   ) : (
                     <div className="overflow-x-auto">
-                      <table className="w-full">
+                      <table className="w-full min-w-[900px]">
                         <thead className="bg-gray-50 border-b border-gray-200">
                           <tr>
                             {['Visitor Name','Host Name','Entry Time','Duration','Cameras Visited','Status'].map(h => (
@@ -1063,7 +1063,7 @@ export function SurveillanceDashboard() {
                     <EmptyTableState message="No visitor history for this period" />
                   ) : (
                     <div className="overflow-x-auto">
-                      <table className="w-full">
+                      <table className="w-full min-w-[900px]">
                         <thead className="bg-gray-50 border-b border-gray-200">
                           <tr>
                             {['Visitor Name','Host Name','Date','Entry Time','Exit Time','Duration','Violations'].map(h => (
@@ -1097,7 +1097,7 @@ export function SurveillanceDashboard() {
                     <EmptyTableState message="No visitor violations recorded" />
                   ) : (
                     <div className="overflow-x-auto">
-                      <table className="w-full">
+                      <table className="w-full min-w-[900px]">
                         <thead className="bg-gray-50 border-b border-gray-200">
                           <tr>
                             {['Visitor Name','Violation Type','Location','Time','Severity'].map(h => (
