@@ -325,7 +325,264 @@
 
 // export default Sidebarusers;
 
-//version 2
+// //version 2
+// import React, { useRef, useState, useCallback } from "react";
+// import { createPortal } from "react-dom";
+// import { useNavigate, useLocation } from "react-router-dom";
+// import { MdOutlineGroup } from "react-icons/md";
+// import {
+//   TbLayoutSidebarLeftExpand,
+//   TbLayoutSidebarLeftCollapse,
+// } from "react-icons/tb";
+
+// const EXPANDED_W = 256;
+// const COLLAPSED_W = 72;
+// const brandSrc = "/xyz/blkwhtlogo.png";
+
+// const navItems = [
+//   { label: "Central Command", key: "/central-command", Icon: MdOutlineGroup },
+//   { label: "Admin", key: "/administration", Icon: MdOutlineGroup },
+//   { label: "Surveillance", key: "/surveillance", Icon: MdOutlineGroup },
+
+  
+//   { label: "Station Report", key: "/station", Icon: MdOutlineGroup },
+//   { label: "Attendance Monitoring", key: "/attendence", Icon: MdOutlineGroup },
+//   { label: "Safety Command Center", key: "/safety-command", Icon: MdOutlineGroup },
+//   { label: "Vehicle Logistics", key: "/vehicle-logistics", Icon: MdOutlineGroup },
+//   { label: "System Performance", key: "/system-performance", Icon: MdOutlineGroup },
+  
+
+// ];
+
+// /* Light Tooltip */
+// const HoverTooltip: React.FC<{
+//   text: string;
+//   x: number;
+//   y: number;
+//   visible: boolean;
+// }> = ({ text, x, y, visible }) => {
+//   if (typeof document === "undefined") return null;
+//   return createPortal(
+//     <div
+//       style={{
+//         position: "fixed",
+//         left: x,
+//         top: y,
+//         transform: "translateY(-50%)",
+//         zIndex: 9999,
+//         opacity: visible ? 1 : 0,
+//         transition: "opacity 120ms ease",
+//       }}
+//       className="px-3 py-1 rounded-md bg-gray-900 text-white text-xs shadow-lg whitespace-nowrap"
+//     >
+//       {text}
+//     </div>,
+//     document.body
+//   );
+// };
+
+// interface SidebarProps {
+//   collapsed: boolean;
+//   setCollapsed: (c: boolean) => void;
+// }
+
+// const Sidebarusers: React.FC<SidebarProps> = ({
+//   collapsed,
+//   setCollapsed,
+// }) => {
+//   const navigate = useNavigate();
+//   const location = useLocation();
+//   const asideRef = useRef<HTMLDivElement | null>(null);
+
+//   const [tip, setTip] = useState({
+//     text: "",
+//     x: 0,
+//     y: 0,
+//     visible: false,
+//   });
+
+//   const showTip = useCallback((text: string, el: HTMLElement) => {
+//     const r = el.getBoundingClientRect();
+//     setTip({
+//       text,
+//       x: r.right + 12,
+//       y: r.top + r.height / 2,
+//       visible: true,
+//     });
+//   }, []);
+
+//   const hideTip = useCallback(
+//     () => setTip((t) => ({ ...t, visible: false })),
+//     []
+//   );
+
+//   const isActive = (key: string) =>
+//     location.pathname.startsWith(key);
+
+//   const handleRailClick: React.MouseEventHandler<HTMLDivElement> = (
+//     e
+//   ) => {
+//     if (!collapsed) return;
+//     const target = e.target as HTMLElement;
+//     if (!target.closest("button")) setCollapsed(false);
+//   };
+
+//   const iconSize = collapsed ? 18 : 20;
+
+//   return (
+//     <>
+//       <HoverTooltip
+//         text={tip.text}
+//         x={tip.x}
+//         y={tip.y}
+//         visible={tip.visible}
+//       />
+
+//       <aside
+//         ref={asideRef}
+//         className="
+//           fixed left-0 top-0 h-full
+//           bg-[#0f1420] border-r border-[#162036]
+//           shadow-sm
+//           flex flex-col
+//           transition-all duration-300
+//           overflow-hidden
+//           z-[60]
+//         "
+//         style={{ width: collapsed ? COLLAPSED_W : EXPANDED_W }}
+//         onClick={handleRailClick}
+//       >
+//         {/* Header */}
+//         {collapsed ? (
+//           <div className="pt-5 pb-4 flex items-center justify-center">
+//             <button
+//               onClick={() => setCollapsed(false)}
+//               className="relative group"
+//               onMouseEnter={(e) =>
+//                 showTip("Expand sidebar", e.currentTarget)
+//               }
+//               onMouseLeave={hideTip}
+//             >
+//               <img
+//                 src={brandSrc}
+//                 alt="logo"
+//                 className="w-10 h-10 object-contain rounded-lg"
+//               />
+//               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+//                 <TbLayoutSidebarLeftExpand
+//                   size={16}
+//                   className="text-blue-600"
+//                 />
+//               </div>
+//             </button>
+//           </div>
+//         ) : (
+//           <div className="px-5 pt-6 pb-4 flex items-center justify-between">
+//             <div className="flex items-center gap-3">
+//               <img
+//                 src={brandSrc}
+//                 alt="logo"
+//                 className="w-12 h-12 object-contain rounded-xl"
+//               />
+//               <span className="font-semibold text-lg text-white">
+//                 I-Grid
+//               </span>
+//             </div>
+//             <button
+//               onClick={() => {
+//                 setCollapsed(true);
+//                 hideTip();
+//               }}
+//               onMouseEnter={(e) =>
+//                 showTip("Collapse sidebar", e.currentTarget)
+//               }
+//               onMouseLeave={hideTip}
+//               className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white-100 transition"
+//             >
+//               <TbLayoutSidebarLeftCollapse
+//                 size={16}
+//                 className="text-white/80"
+//               />
+//             </button>
+//           </div>
+//         )}
+
+//         <div className="mx-4 mb-3 h-px bg-gray-200" />
+
+//         {/* Navigation */}
+//         <nav className={`${collapsed ? "px-0" : "px-3"} mt-1`}>
+//           <ul className="space-y-1">
+//             {navItems.map(({ label, key, Icon }) => {
+//               const active = isActive(key);
+
+//               return (
+//                 <li key={key}>
+//                   <button
+//                     onClick={() => navigate(key)}
+//                     onMouseEnter={(e) =>
+//                       collapsed && showTip(label, e.currentTarget)
+//                     }
+//                     onMouseLeave={hideTip}
+//                     className={
+//                       collapsed
+//                         ? `
+//                           flex items-center justify-center
+//                           w-10 h-10 mx-auto rounded-lg
+//                           transition
+//                           ${
+//                             active
+//                               ? "bg-[#EAF2FF] text-[#1a356f] font-medium"
+//                               : "text-gray-600 hover:bg-gray-50"
+
+//                           }
+//                         `
+//                         : `
+//                           flex items-center gap-3 px-4 py-2.5 w-full rounded-lg
+//                           text-sm transition
+//                           ${
+//                             active
+//                               ? "bg-[#0F3A55] text-[#E6F7FF] font-medium border-l-4 border-[#22D3EE]"
+//                               : "text-[#e0e5f5] hover:bg-white/[0.04] hover:text-white"
+//                           }
+//                         `
+//                     }
+//                   >
+//                     <Icon size={iconSize} />
+//                     {!collapsed && <span>{label}</span>}
+//                   </button>
+//                 </li>
+//               );
+//             })}
+//           </ul>
+//         </nav>
+
+//         {/* Footer */}
+//         {!collapsed && (
+//           <div className="mt-auto px-5 pt-4 pb-5">
+//             <div className="h-px bg-gray-200 mb-3" />
+//             <div className="text-xs text-gray-500">
+//               Powered by{" "}
+//               <a
+//                 href="https://thingsi.ai"
+//                 target="_blank"
+//                 rel="noreferrer"
+//                 className="text-gray-900 font-medium hover:underline"
+//               >
+//                 Thingsi
+//               </a>
+//             </div>
+//           </div>
+//         )}
+//       </aside>
+//     </>
+//   );
+// };
+
+// export default Sidebarusers;
+
+
+//Version 3 (current)
+
 import React, { useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -384,11 +641,17 @@ const HoverTooltip: React.FC<{
 interface SidebarProps {
   collapsed: boolean;
   setCollapsed: (c: boolean) => void;
+  drawerOpen?: boolean;
+  setDrawerOpen?: (open: boolean) => void;
+  isMobile?: boolean;
 }
 
 const Sidebarusers: React.FC<SidebarProps> = ({
   collapsed,
   setCollapsed,
+  drawerOpen = false,
+  setDrawerOpen,
+  isMobile = false,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -437,20 +700,33 @@ const Sidebarusers: React.FC<SidebarProps> = ({
         y={tip.y}
         visible={tip.visible}
       />
+      {isMobile && drawerOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-[55]"
+          onClick={() => setDrawerOpen?.(false)}
+        />
+      )}
 
       <aside
         ref={asideRef}
-        className="
-          fixed left-0 top-0 h-full
+        className={`
+          fixed top-0 left-0 h-full
           bg-[#0f1420] border-r border-[#162036]
-          shadow-sm
-          flex flex-col
-          transition-all duration-300
-          overflow-hidden
-          z-[60]
-        "
-        style={{ width: collapsed ? COLLAPSED_W : EXPANDED_W }}
-        onClick={handleRailClick}
+          shadow-sm flex flex-col
+          transition-transform duration-300
+          overflow-hidden z-[60]
+
+          ${
+            isMobile
+              ? drawerOpen
+                ? "translate-x-0"
+                : "-translate-x-full"
+              : "translate-x-0"
+          }
+        `}
+        style={{
+          width: collapsed ? COLLAPSED_W : EXPANDED_W,
+        }}
       >
         {/* Header */}
         {collapsed ? (
@@ -518,7 +794,10 @@ const Sidebarusers: React.FC<SidebarProps> = ({
               return (
                 <li key={key}>
                   <button
-                    onClick={() => navigate(key)}
+                    onClick={() => {
+                      navigate(key);
+                      if (isMobile) setDrawerOpen?.(false);
+                    }}
                     onMouseEnter={(e) =>
                       collapsed && showTip(label, e.currentTarget)
                     }

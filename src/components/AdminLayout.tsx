@@ -215,12 +215,12 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
         </div>
       </main>
 
-      {isMobile && drawerOpen && (
+      {/* {isMobile && drawerOpen && (
         <div
           className="fixed inset-0 z-40 bg-black bg-opacity-40"
           onClick={() => setDrawerOpen(false)}
         />
-      )}
+      )} */}
     </div>
   );
 };
