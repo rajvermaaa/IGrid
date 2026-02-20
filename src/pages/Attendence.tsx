@@ -589,8 +589,8 @@ export function SurveillanceDashboard() {
     <div className="flex-1 flex flex-col overflow-hidden bg-gray-100">
 
       {/* ── Header ── */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex-shrink-0">
-        <div className="flex items-start justify-between mb-4">
+      <div className="bg-white border-b border-gray-200 px-6 py-3 flex-shrink-0">
+        <div className="flex items-center justify-between mb-3">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <button
               onClick={() => navigate(-1)}
@@ -600,8 +600,8 @@ export function SurveillanceDashboard() {
               <ArrowLeft className="w-4 h-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
             </button>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 leading-8">Security & Attendance Monitoring</h1>
-              <p className="text-sm text-gray-600 mt-1">Real-time monitoring and analytics</p>
+              <h1 className="text-xl font-semibold text-gray-900">Security & Attendance Monitoring</h1>
+              <p className="text-xs text-gray-500 mt-0.5">Real-time monitoring and analytics</p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
@@ -655,7 +655,7 @@ export function SurveillanceDashboard() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-white border border-gray-200 rounded-[14px] inline-flex p-1">
+        <div className="flex gap-1 bg-white border border-gray-200 rounded-[12px] inline-flex p-0.5">
           {(['overview', 'attendance', 'visitor'] as const).map(tab => (
             <button
               key={tab}
