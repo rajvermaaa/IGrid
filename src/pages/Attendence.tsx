@@ -749,7 +749,7 @@ export function SurveillanceDashboard() {
               {overview.isLoading && !overview.visitorKPIs ? (
                 <SkeletonKPIRow cols={6} />
               ) : overview.visitorKPIs ? (
-                <div className="grid grid-cols-6 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                   <StatCard color="purple" label="Total Visitors Today" value={overview.visitorKPIs.totalVisitorsToday} trend={overview.visitorKPIs.visitorsTrend} trendUp icon={<Users className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="purple" label="Currently Inside"     value={overview.visitorKPIs.currentlyInside}    icon={<Users className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="orange" label="Overstay Count"       value={overview.visitorKPIs.overstayCount}      icon={<Clock className="w-8 h-8 text-gray-400" />} />
