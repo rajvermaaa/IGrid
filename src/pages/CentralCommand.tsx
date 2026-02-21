@@ -1,14 +1,3 @@
-// ============================================================
-// CentralCommand.tsx - Production Ready with API Integration
-// ============================================================
-// Features:
-// ✅ Back button navigation
-// ✅ Manual refresh button
-// ✅ Auto-refresh every 60 seconds
-// ✅ Fully responsive design (works on all screen sizes)
-// ✅ API-ready with getJSON integration
-// ✅ Mock data fallback
-// ============================================================
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -323,24 +312,12 @@ export function CentralCommand() {
     <main className="flex-1 overflow-y-auto bg-gray-50">
       {/* Page Header */}
       <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          {/* Left: Back Button + Page Title */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => navigate(-1)}
-              className="group flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:shadow transition-all duration-150 flex-shrink-0"
-              title="Go back"
-            >
-              <ArrowLeft className="w-4 h-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
-            </button>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Plant Monitoring – Central Command</h1>
-              <p className="text-xs sm:text-sm text-gray-500 mt-1">Real-time operational overview</p>
-            </div>
-          </div>
 
-          {/* Right: Controls */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+
+          {/* ───────── LEFT : Plant Selector ───────── */}
+          <div className="flex items-center gap-3">
+
             {/* Plant Selector */}
             <div className="relative">
               <button
@@ -352,10 +329,11 @@ export function CentralCommand() {
                 <span className="sm:hidden">{getPlantShortName(selectedPlant)}</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
+
               {plantSelectorOpen && (
                 <>
                   <div className="fixed inset-0 z-30" onClick={() => setPlantSelectorOpen(false)} />
-                  <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-40">
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-40">
                     {PLANTS.map(plant => (
                       <button
                         key={plant.id}
@@ -370,42 +348,52 @@ export function CentralCommand() {
                         }`}
                       >
                         <span>{plant.name}</span>
-                        {selectedPlant === plant.id && (
-                          <Check className="w-4 h-4 text-blue-600" />
-                        )}
+                        {selectedPlant === plant.id && <Check className="w-4 h-4 text-blue-600" />}
                       </button>
                     ))}
                   </div>
                 </>
               )}
             </div>
+          </div>
 
-            {/* Refresh Button */}
+          {/* ───────── RIGHT : Controls ───────── */}
+          <div className="flex flex-wrap items-center gap-3">
+
+            {/* Refresh */}
             <button
               onClick={refresh}
               disabled={isRefreshing}
               className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">Refresh</span>
             </button>
 
-            {/* Date & Time - Hidden on mobile */}
-            <div className="hidden lg:flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200">
+            {/* Date & Time */}
+            <div className="hidden md:flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200">
               <Clock className="w-4 h-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-700">{getCurrentDateTime()}</span>
             </div>
 
             {/* System Status */}
-            <div className="flex items-center gap-2 px-3 py-2 bg-green-50 rounded-lg border border-green-200">
-              <Circle className="w-2.5 h-2.5 fill-green-500 text-green-500 animate-pulse" />
-              <span className="text-sm font-semibold text-green-700">{data?.overallStatus || 'Loading'}</span>
+            <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border ${
+              data?.overallStatus === 'healthy'
+                ? 'bg-green-50 border-green-200 text-green-700'
+                : data?.overallStatus === 'warning'
+                ? 'bg-yellow-50 border-yellow-200 text-yellow-700'
+                : 'bg-red-50 border-red-200 text-red-700'
+            }`}>
+              <Circle className="w-2.5 h-2.5 fill-current animate-pulse" />
+              <span className="text-sm font-semibold capitalize">
+                {data?.overallStatus || 'Loading'}
+              </span>
             </div>
 
-            {/* Last Updated - Mobile */}
-            <div className="text-xs text-gray-500 lg:hidden w-full sm:w-auto text-center sm:text-left">
+            {/* Last Updated */}
+            <div className="text-xs text-gray-500 whitespace-nowrap">
               Updated: {formatLastUpdated()}
             </div>
+
           </div>
         </div>
       </div>

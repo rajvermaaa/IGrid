@@ -683,29 +683,7 @@ export function VehicleLogisticsDashboard() {
     <div className="flex-1 flex flex-col overflow-hidden">
 
       {/* ── Header ── */}
-      <PageHeader title={
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate(-1)}
-            className="group flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:shadow transition-all duration-150"
-            title="Go back"
-          >
-            <ArrowLeft className="w-4 h-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
-          </button>
-          <span>Vehicle & Logistics Dashboard</span>
-        </div>
-      }>
-        <div className="flex items-center gap-3">
-          <p className="text-sm text-gray-600">Real-time monitoring and tracking system</p>
-          <button onClick={dashboard.refresh} disabled={dashboard.isRefreshing}
-            className="p-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50">
-            <RefreshCw className={`w-4 h-4 text-gray-600 ${dashboard.isRefreshing ? 'animate-spin' : ''}`} />
-          </button>
-          <span className="text-xs text-gray-500 whitespace-nowrap">
-            Updated: {formatLastUpdated()}
-          </span>
-        </div>
-      </PageHeader>
+  
 
       <div className="flex-1 overflow-auto p-4 sm:p-6">
 

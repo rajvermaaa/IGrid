@@ -100,7 +100,7 @@ export function StatusBadge({ status, size = 'md' }: StatusBadgeProps) {
 }
 
 interface PageHeaderProps {
-  title: string;
+  title?: string;
   children?: React.ReactNode;
 }
 

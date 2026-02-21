@@ -483,32 +483,19 @@ export function SystemPerformanceDashboard() {
     <div className="flex-1 flex flex-col overflow-hidden">
 
       {/* ── Header ── */}
-      <PageHeader
-        title={
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <button
-              onClick={() => navigate(-1)}
-              className="group flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:shadow transition-all duration-150"
-              title="Go back"
-            >
-              <ArrowLeft className="w-4 h-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
-            </button>
-            <span>System Performance & Technical Health</span>
-          </div>
-        }
-      >
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+      <PageHeader>
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
 
-          {/* Time Range Picker */}
-          <div className="relative">
-            <button
-              onClick={() => setDatePickerOpen(!datePickerOpen)}
-              className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>{getTimeRangeLabel(filters.timeRange)}</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
+        {/* Time Range Picker */}
+        <div className="relative">
+          <button
+            onClick={() => setDatePickerOpen(!datePickerOpen)}
+            className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            <Calendar className="w-4 h-4" />
+            <span>{getTimeRangeLabel(filters.timeRange)}</span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
 
             {datePickerOpen && (
               <>

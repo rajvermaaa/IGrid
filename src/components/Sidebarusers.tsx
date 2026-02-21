@@ -607,6 +607,8 @@ const navItems = [
   { label: "Safety Command Center", key: "/safety-command", Icon: MdOutlineGroup },
   { label: "Vehicle Logistics", key: "/vehicle-logistics", Icon: MdOutlineGroup },
   { label: "System Performance", key: "/system-performance", Icon: MdOutlineGroup },
+  { label: "Camera Management", key: "/camera", Icon: MdOutlineGroup },
+
   
 
 ];

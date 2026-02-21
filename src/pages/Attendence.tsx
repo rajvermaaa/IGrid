@@ -174,9 +174,11 @@ async function apiFetchLiveCameras(f: SurveillanceFilters): Promise<LiveCamera[]
   return getJSON<LiveCamera[]>(`/api/surveillance/cameras/live${buildQuery(f)}`);
 }
 
+
 async function apiFetchEventsFeed(f: SurveillanceFilters): Promise<SecurityEvent[]> {
   return getJSON<SecurityEvent[]>(`/api/surveillance/events/feed${buildQuery(f)}`);
 }
+
 
 async function apiFetchAttendanceRecords(f: SurveillanceFilters, search: string): Promise<AttendanceRecord[]> {
   return getJSON<AttendanceRecord[]>(`/api/surveillance/attendance/records${buildQuery({ ...f, q: search })}`);
@@ -589,73 +591,72 @@ export function SurveillanceDashboard() {
     <div className="flex-1 flex flex-col overflow-hidden bg-gray-100">
 
       {/* ── Header ── */}
-      <div className="bg-white border-b border-gray-200 px-6 py-3 flex-shrink-0">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <button
-              onClick={() => navigate(-1)}
-              className="group flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:shadow transition-all duration-150 flex-shrink-0"
-              title="Go back"
-            >
-              <ArrowLeft className="w-4 h-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
-            </button>
-            <div>
-              <h1 className="text-xl font-semibold text-gray-900">Security & Attendance Monitoring</h1>
-              <p className="text-xs text-gray-500 mt-0.5">Real-time monitoring and analytics</p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+      <div className="bg-white border-b border-gray-200 px-6 py-4 flex-shrink-0">
+        <div className="flex flex-wrap items-center justify-between mb-4 gap-3">
 
-            {/* Date Range Dropdown */}
-            <select
-              value={dateRange}
-              onChange={e => setDateRange(e.target.value)}
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="last7days">Last 7 Days</option>
-              <option value="custom">Custom Range</option>
-            </select>
+  {/* ───────── LEFT SIDE ───────── */}
+  <div className="flex flex-wrap items-center gap-3">
 
-            {/* Camera Dropdown */}
-            <select
-              value={camera}
-              onChange={e => setCamera(e.target.value)}
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">All Cameras</option>
-              <option value="entrance">Entrance</option>
-              <option value="floor1">Floor 1</option>
-              <option value="restricted">Restricted</option>
-            </select>
+    {/* Date Range */}
+    <select
+      value={dateRange}
+      onChange={e => setDateRange(e.target.value)}
+      className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      <option value="today">Today</option>
+      <option value="yesterday">Yesterday</option>
+      <option value="last7days">Last 7 Days</option>
+      <option value="custom">Custom Range</option>
+    </select>
 
-            {/* Person Type Dropdown */}
-            <select
-              value={personType}
-              onChange={e => setPersonType(e.target.value)}
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">All</option>
-              <option value="employees">Employees</option>
-              <option value="visitors">Visitors</option>
-            </select>
+    {/* Person Type */}
+    <select
+      value={personType}
+      onChange={e => setPersonType(e.target.value)}
+      className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      <option value="all">All</option>
+      <option value="employees">Employees</option>
+      <option value="visitors">Visitors</option>
+    </select>
 
-            {/* Refresh Button */}
-            <button
-              onClick={overview.refresh}
-              disabled={overview.isRefreshing}
-              className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
-            >
-              <RefreshCw className={`w-4 h-4 ${overview.isRefreshing ? 'animate-spin' : ''}`} />
-            </button>
+    {/* Camera */}
+    <select
+      value={camera}
+      onChange={e => setCamera(e.target.value)}
+      className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      <option value="all">All Cameras</option>
+      <option value="entrance">Entrance</option>
+      <option value="floor1">Floor 1</option>
+      <option value="restricted">Restricted</option>
+    </select>
 
-            <span className="text-xs text-gray-500 whitespace-nowrap">Updated: {formatLastUpdated()}</span>
-          </div>
-        </div>
+  </div>
+
+  {/* ───────── RIGHT SIDE ───────── */}
+  <div className="flex items-center gap-3">
+
+    {/* Refresh */}
+    <button
+      onClick={overview.refresh}
+      disabled={overview.isRefreshing}
+      className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
+    >
+      <RefreshCw className={`w-4 h-4 ${overview.isRefreshing ? 'animate-spin' : ''}`} />
+    </button>
+
+    {/* Updated Text */}
+    <span className="text-xs text-gray-500 whitespace-nowrap">
+      Updated: {formatLastUpdated()}
+    </span>
+
+  </div>
+
+</div>
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-white border border-gray-200 rounded-[12px] inline-flex p-0.5">
+        <div className="flex gap-1 bg-white border border-gray-200 rounded-[14px] inline-flex p-1">
           {(['overview', 'attendance', 'visitor'] as const).map(tab => (
             <button
               key={tab}
@@ -749,7 +750,7 @@ export function SurveillanceDashboard() {
               {overview.isLoading && !overview.visitorKPIs ? (
                 <SkeletonKPIRow cols={6} />
               ) : overview.visitorKPIs ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+                <div className="grid grid-cols-6 gap-4">
                   <StatCard color="purple" label="Total Visitors Today" value={overview.visitorKPIs.totalVisitorsToday} trend={overview.visitorKPIs.visitorsTrend} trendUp icon={<Users className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="purple" label="Currently Inside"     value={overview.visitorKPIs.currentlyInside}    icon={<Users className="w-8 h-8 text-gray-400" />} />
                   <StatCard color="orange" label="Overstay Count"       value={overview.visitorKPIs.overstayCount}      icon={<Clock className="w-8 h-8 text-gray-400" />} />
@@ -871,7 +872,7 @@ export function SurveillanceDashboard() {
                               </span>
                             </div>
                             <p className="text-xs text-gray-600 mb-1">{event.location}</p>
-                            <div className="flex flex-wrap items-center gap-2">
+                            <div className="flex items-center gap-2">
                               <span className="text-xs text-gray-500">Confidence:</span>
                               <div className="flex-1 max-w-[80px] bg-gray-200 rounded-full h-1.5">
                                 <div
@@ -903,7 +904,7 @@ export function SurveillanceDashboard() {
                   <h2 className="text-lg font-bold text-gray-900">Daily Attendance Summary</h2>
                   <p className="text-sm text-gray-600">Complete attendance records for today</p>
                 </div>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-2">
                 {/* Search Icon OUTSIDE */}
                 <Search
                   className={`w-4 h-4 ${

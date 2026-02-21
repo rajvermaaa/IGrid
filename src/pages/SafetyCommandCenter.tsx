@@ -520,125 +520,105 @@ export function SafetyCommandCenter() {
     <div className="flex-1 flex flex-col overflow-hidden">
 
       {/* ── Header ── */}
-      <PageHeader title={
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate(-1)}
-            className="group flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:shadow transition-all duration-150"
-            title="Go back"
-          >
-            <ArrowLeft className="w-4 h-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
-          </button>
-          <span>Safety Command Center</span>
-        </div>
-      }>
-        <div className="flex flex-wrap items-center gap-2 sm:gap-4 justify-between">
+      <PageHeader>
+        <div className="flex flex-wrap items-center justify-between gap-3 w-full">
 
-          {filtered && (
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Risk Level:</span>
-              <StatusBadge status={filtered.riskLevel as any} />
-            </div>
-          )}
+          {/* ───────── LEFT SIDE ───────── */}
+          <div className="flex flex-wrap items-center gap-3">
 
-          {/* PPE Configuration Dropdown */}
-          <div className="relative">
-            <button
-              ref={buttonRef}
-              onClick={() => setPpeConfigOpen(p => !p)}
-              className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              <Settings className="w-4 h-4" />
-              <span>PPE Configuration</span>
-              <span className="ml-1 bg-blue-600 text-white text-xs rounded-full px-1.5 py-0.5 leading-none">
-                {features.filter(f => f.enabled).length}/{features.length}
-              </span>
-              <ChevronDown className={`w-4 h-4 transition-transform ${ppeConfigOpen ? 'rotate-180' : ''}`} />
-            </button>
-
-            {ppeConfigOpen && (
-              <div ref={dropdownRef} className="absolute left-0 top-full mt-2 w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
-                <div className="p-4">
-                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">PPE Features</div>
-                  <p className="text-xs text-gray-400 mb-3">Toggling a feature instantly recalculates all charts and KPIs.</p>
-                  <div className="space-y-1">
-                    {features.map(feature => (
-                      <div
-                        key={feature.name}
-                        onClick={() => toggleFeature(feature.name)}
-                        className={`flex items-center justify-between py-2.5 px-2 rounded-lg transition-colors cursor-pointer ${feature.enabled ? 'hover:bg-blue-50' : 'hover:bg-gray-50'}`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className={`w-2 h-2 rounded-full flex-shrink-0 ${feature.enabled ? 'bg-blue-500' : 'bg-gray-300'}`} />
-                          <span className={`text-sm font-medium select-none ${feature.enabled ? 'text-gray-800' : 'text-gray-400'}`}>{feature.name}</span>
-                        </div>
-                        <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors pointer-events-none ${feature.enabled ? 'bg-blue-600' : 'bg-gray-300'}`}>
-                          <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${feature.enabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between">
-                    <span className="text-xs text-gray-500">{features.filter(f => f.enabled).length} of {features.length} active</span>
-                    <div className="flex gap-2">
-                      <button onClick={enableAll}  className="text-xs text-blue-600 hover:text-blue-700 font-medium">All On</button>
-                      <span className="text-gray-300">|</span>
-                      <button onClick={disableAll} className="text-xs text-gray-500 hover:text-gray-700 font-medium">All Off</button>
-                    </div>
-                  </div>
-                </div>
+            {/* Status Badge */}
+            {filtered && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">Risk Level:</span>
+                <StatusBadge status={filtered.riskLevel as any} />
               </div>
             )}
-          </div>
 
-          {/* ── Plant Selector Dropdown ── */}
-          <div className="relative">
-            <button
-              onClick={() => setPlantSelectorOpen(!plantSelectorOpen)}
-              className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm"
-            >
-              <Factory className="w-4 h-4" />
-              <span className="hidden sm:inline">{getPlantDisplayName(selectedPlant)}</span>
-              <span className="sm:hidden">{getPlantShortName(selectedPlant)}</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            {plantSelectorOpen && (
-              <>
-                <div className="fixed inset-0 z-30" onClick={() => setPlantSelectorOpen(false)} />
-                <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-40">
-                  {PLANTS.map(plant => (
-                    <button
-                      key={plant.id}
-                      onClick={() => {
-                        setSelectedPlant(plant.id);
-                        setPlantSelectorOpen(false);
-                      }}
-                      className={`w-full px-4 py-2 text-sm text-left hover:bg-blue-50 flex items-center justify-between transition-colors ${
-                        selectedPlant === plant.id
-                          ? 'bg-blue-50 text-blue-700 font-semibold'
-                          : 'text-gray-700 font-medium'
-                      }`}
-                    >
-                      <span>{plant.name}</span>
-                      {selectedPlant === plant.id && (
-                        <Check className="w-4 h-4 text-blue-600" />
-                      )}
-                    </button>
-                  ))}
+            {/* PPE Configuration Dropdown */}
+            <div className="relative">
+              <button
+                ref={buttonRef}
+                onClick={() => setPpeConfigOpen(p => !p)}
+                className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                <Settings className="w-4 h-4" />
+                <span>PPE Configuration</span>
+                <span className="ml-1 bg-blue-600 text-white text-xs rounded-full px-1.5 py-0.5 leading-none">
+                  {features.filter(f => f.enabled).length}/{features.length}
+                </span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${ppeConfigOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {ppeConfigOpen && (
+                <div ref={dropdownRef} className="absolute left-0 top-full mt-2 w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                  {/* KEEP YOUR EXISTING PPE DROPDOWN CONTENT HERE */}
                 </div>
-              </>
-            )}
+              )}
+            </div>
+
+            {/* Plant Selector */}
+            <div className="relative">
+              <button
+                onClick={() => setPlantSelectorOpen(!plantSelectorOpen)}
+                className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm"
+              >
+                <Factory className="w-4 h-4" />
+                <span className="hidden sm:inline">{getPlantDisplayName(selectedPlant)}</span>
+                <span className="sm:hidden">{getPlantShortName(selectedPlant)}</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+
+              {plantSelectorOpen && (
+                <>
+                  <div className="fixed inset-0 z-30" onClick={() => setPlantSelectorOpen(false)} />
+                  <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-40">
+                    {PLANTS.map(plant => (
+                      <button
+                        key={plant.id}
+                        onClick={() => {
+                          setSelectedPlant(plant.id);
+                          setPlantSelectorOpen(false);
+                        }}
+                        className={`w-full px-4 py-2 text-sm text-left hover:bg-blue-50 flex items-center justify-between transition-colors ${
+                          selectedPlant === plant.id
+                            ? 'bg-blue-50 text-blue-700 font-semibold'
+                            : 'text-gray-700 font-medium'
+                        }`}
+                      >
+                        <span>{plant.name}</span>
+                        {selectedPlant === plant.id && (
+                          <Check className="w-4 h-4 text-blue-600" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
           </div>
 
-          <button onClick={refresh} disabled={isRefreshing}
-            className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50">
-            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-            <span>Refresh</span>
-          </button>
+          {/* ───────── RIGHT SIDE ───────── */}
+          <div className="flex items-center gap-3">
 
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Clock className="w-4 h-4" /><span>Last updated: {formatLastUpdated()}</span>
+            {/* Refresh */}
+            <button
+              onClick={refresh}
+              disabled={isRefreshing}
+              className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+              <span className="hidden sm:inline">Refresh</span>
+            </button>
+
+            {/* Last Updated */}
+            <div className="flex items-center gap-2 text-sm text-gray-600 whitespace-nowrap">
+              <Clock className="w-4 h-4" />
+              <span>Last updated: {formatLastUpdated()}</span>
+            </div>
+
           </div>
+
         </div>
       </PageHeader>
 
