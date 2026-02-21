@@ -10955,10 +10955,19 @@ const Station: React.FC = () => {
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
+        console.error("Station API Error:", err);
+
+        // If backend returned HTML instead of JSON
+        if (typeof err?.message === "string" && err.message.includes("<!DOCTYPE")) {
+            setError("Backend service is not available. Please check server connection.");
+        } else {
+            setError("Failed to load station data. Please try again.");
+        }
+
+        setRows([]);
         setLoading(false);
-      });
-  }, []);
+    });
+  }, []); 
 
   /* ================= AUTO REFRESH ================= */
 
