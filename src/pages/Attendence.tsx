@@ -591,8 +591,8 @@ export function SurveillanceDashboard() {
     <div className="flex-1 flex flex-col overflow-hidden bg-gray-100">
 
       {/* ── Header ── */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex-shrink-0">
-        <div className="flex flex-wrap items-center justify-between mb-4 gap-3">
+      <div className="bg-white border-b border-gray-200 px-3 sm:px-6 py-3 sm:py-4 flex-shrink-0 sticky top-0 z-40">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 gap-3">
 
           {/* ───────── LEFT SIDE ───────── */}
           <div className="flex flex-wrap items-center gap-3">
@@ -601,7 +601,7 @@ export function SurveillanceDashboard() {
             <select
               value={dateRange}
               onChange={e => setDateRange(e.target.value)}
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="relative z-50 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="today">Today</option>
               <option value="yesterday">Yesterday</option>
@@ -609,11 +609,11 @@ export function SurveillanceDashboard() {
               <option value="custom">Custom Range</option>
             </select>
 
-            {/* Person Type */}
+            {/* Person Type */}    
             <select
               value={personType}
               onChange={e => setPersonType(e.target.value)}
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="relative z-50 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All</option>
               <option value="employees">Employees</option>

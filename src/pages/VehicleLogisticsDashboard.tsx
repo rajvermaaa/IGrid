@@ -700,7 +700,7 @@ export function VehicleLogisticsDashboard() {
               }`}
             />
 
-            {/* Input Field */}
+            {/* Input Field */} 
             <input
               type="text"
               value={searchQuery}

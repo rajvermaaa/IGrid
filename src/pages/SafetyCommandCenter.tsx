@@ -516,7 +516,7 @@ export function SafetyCommandCenter() {
     );
   }
 
-  return (
+  return (   
     <div className="flex-1 flex flex-col overflow-hidden">
 
       {/* ── Header ── */}
@@ -533,7 +533,7 @@ export function SafetyCommandCenter() {
                 <StatusBadge status={filtered.riskLevel as any} />
               </div>
             )}
-
+     
             {/* PPE Configuration Dropdown */}
             <div className="relative">
               <button

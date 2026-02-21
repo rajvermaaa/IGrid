@@ -563,7 +563,7 @@ export function SystemPerformanceDashboard() {
       <div className="flex flex-1 overflow-hidden relative">
 
         {/* ── Main Content ── */}
-        <div className="flex-1 overflow-auto p-4 sm:p-6">
+        <div className="flex-1 overflow-auto p-4 sm:p-6"> 
 
           {/* Loading skeleton */}
           {isLoading && !metrics ? (
