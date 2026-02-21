@@ -594,7 +594,7 @@ import {
 
 const EXPANDED_W = 256;
 const COLLAPSED_W = 72;
-const brandSrc = "/xyz/blkwhtlogo.png";
+const brandSrc = "/blkwhtlogo.png";
 
 const navItems = [
   { label: "Central Command", key: "/central-command", Icon: MdOutlineGroup },

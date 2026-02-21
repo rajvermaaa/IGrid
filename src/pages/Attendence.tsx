@@ -594,66 +594,66 @@ export function SurveillanceDashboard() {
       <div className="bg-white border-b border-gray-200 px-6 py-4 flex-shrink-0">
         <div className="flex flex-wrap items-center justify-between mb-4 gap-3">
 
-  {/* ───────── LEFT SIDE ───────── */}
-  <div className="flex flex-wrap items-center gap-3">
+          {/* ───────── LEFT SIDE ───────── */}
+          <div className="flex flex-wrap items-center gap-3">
 
-    {/* Date Range */}
-    <select
-      value={dateRange}
-      onChange={e => setDateRange(e.target.value)}
-      className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-    >
-      <option value="today">Today</option>
-      <option value="yesterday">Yesterday</option>
-      <option value="last7days">Last 7 Days</option>
-      <option value="custom">Custom Range</option>
-    </select>
+            {/* Date Range */}
+            <select
+              value={dateRange}
+              onChange={e => setDateRange(e.target.value)}
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+              <option value="last7days">Last 7 Days</option>
+              <option value="custom">Custom Range</option>
+            </select>
 
-    {/* Person Type */}
-    <select
-      value={personType}
-      onChange={e => setPersonType(e.target.value)}
-      className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-    >
-      <option value="all">All</option>
-      <option value="employees">Employees</option>
-      <option value="visitors">Visitors</option>
-    </select>
+            {/* Person Type */}
+            <select
+              value={personType}
+              onChange={e => setPersonType(e.target.value)}
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All</option>
+              <option value="employees">Employees</option>
+              <option value="visitors">Visitors</option>
+            </select>
 
-    {/* Camera */}
-    <select
-      value={camera}
-      onChange={e => setCamera(e.target.value)}
-      className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-    >
-      <option value="all">All Cameras</option>
-      <option value="entrance">Entrance</option>
-      <option value="floor1">Floor 1</option>
-      <option value="restricted">Restricted</option>
-    </select>
+            {/* Camera */}
+            <select
+              value={camera}
+              onChange={e => setCamera(e.target.value)}
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All Cameras</option>
+              <option value="entrance">Entrance</option>
+              <option value="floor1">Floor 1</option>
+              <option value="restricted">Restricted</option>
+            </select>
 
-  </div>
+          </div>
 
-  {/* ───────── RIGHT SIDE ───────── */}
-  <div className="flex items-center gap-3">
+          {/* ───────── RIGHT SIDE ───────── */}
+          <div className="flex items-center gap-3">
 
-    {/* Refresh */}
-    <button
-      onClick={overview.refresh}
-      disabled={overview.isRefreshing}
-      className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
-    >
-      <RefreshCw className={`w-4 h-4 ${overview.isRefreshing ? 'animate-spin' : ''}`} />
-    </button>
+            {/* Refresh */}
+            <button
+              onClick={overview.refresh}
+              disabled={overview.isRefreshing}
+              className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 ${overview.isRefreshing ? 'animate-spin' : ''}`} />
+            </button>
 
-    {/* Updated Text */}
-    <span className="text-xs text-gray-500 whitespace-nowrap">
-      Updated: {formatLastUpdated()}
-    </span>
+            {/* Updated Text */}
+            <span className="text-xs text-gray-500 whitespace-nowrap">
+              Updated: {formatLastUpdated()}
+            </span>
 
-  </div>
+          </div>
 
-</div>
+        </div>
 
         {/* Tabs */}
         <div className="flex gap-1 bg-white border border-gray-200 rounded-[14px] inline-flex p-1">

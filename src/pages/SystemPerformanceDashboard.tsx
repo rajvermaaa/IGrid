@@ -484,61 +484,79 @@ export function SystemPerformanceDashboard() {
 
       {/* ── Header ── */}
       <PageHeader>
-      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div className="flex flex-wrap items-center justify-between w-full gap-3">
 
-        {/* Time Range Picker */}
-        <div className="relative">
-          <button
-            onClick={() => setDatePickerOpen(!datePickerOpen)}
-            className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            <Calendar className="w-4 h-4" />
-            <span>{getTimeRangeLabel(filters.timeRange)}</span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
+          {/* ───────── LEFT SIDE ───────── */}
+          <div className="flex items-center gap-3">
 
-            {datePickerOpen && (
-              <>
-                <div className="fixed inset-0 z-30" onClick={() => setDatePickerOpen(false)} />
-                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-xl z-40">
-                  <div className="p-2">
-                    {['5m', '1h', '24h', '7d', '30d'].map(range => (
-                      <button
-                        key={range}
-                        onClick={() => { updateFilter('timeRange', range); setDatePickerOpen(false); }}
-                        className={`w-full text-left px-3 py-2 rounded text-sm hover:bg-gray-100 transition-colors ${
-                          filters.timeRange === range ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'
-                        }`}
-                      >
-                        {getTimeRangeLabel(range)}
-                      </button>
-                    ))}
+            {/* Time Range Picker */}
+            <div className="relative">
+              <button
+                onClick={() => setDatePickerOpen(!datePickerOpen)}
+                className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                <Calendar className="w-4 h-4" />
+                <span>{getTimeRangeLabel(filters.timeRange)}</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+
+              {datePickerOpen && (
+                <>
+                  <div className="fixed inset-0 z-30" onClick={() => setDatePickerOpen(false)} />
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-xl z-40">
+                    <div className="p-2">
+                      {['5m', '1h', '24h', '7d', '30d'].map(range => (
+                        <button
+                          key={range}
+                          onClick={() => {
+                            updateFilter('timeRange', range);
+                            setDatePickerOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-2 rounded text-sm hover:bg-gray-100 transition-colors ${
+                            filters.timeRange === range
+                              ? 'bg-blue-50 text-blue-700 font-medium'
+                              : 'text-gray-700'
+                          }`}
+                        >
+                          {getTimeRangeLabel(range)}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
+                </>
+              )}
+            </div>
+
           </div>
 
-          {/* Manual Refresh */}
-          <button
-            onClick={refresh}
-            disabled={isRefreshing}
-            className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
-          >
-            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-            {/* <span>Refresh</span> */}
-          </button>
+          {/* ───────── RIGHT SIDE ───────── */}
+          <div className="flex items-center gap-3">
 
-          {/* Filters */}
-          <button
-            onClick={() => setFiltersOpen(true)}
-            className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            <Filter className="w-4 h-4" />
-            <span>Filters</span>
-          </button>
+            {/* Refresh */}
+            <button
+              onClick={refresh}
+              disabled={isRefreshing}
+              className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+            >
+              <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            </button>
 
-          <div className="text-sm text-gray-500">Updated: {formatLastUpdated()}</div>
+            {/* Filters */}
+            <button
+              onClick={() => setFiltersOpen(true)}
+              className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              <Filter className="w-4 h-4" />
+              <span>Filters</span>
+            </button>
+
+            {/* Last Updated */}
+            <div className="text-sm text-gray-500 whitespace-nowrap">
+              Updated: {formatLastUpdated()}
+            </div>
+
+          </div>
+
         </div>
       </PageHeader>
 

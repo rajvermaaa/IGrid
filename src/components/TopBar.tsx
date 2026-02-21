@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MdLogout, MdChevronLeft } from "react-icons/md";
-//import logo from "../assets/adminlogo.jpeg";
-import logo from "../assets/droolslogo.jpg";
+// import logo from "../assets/adminlogo.jpeg";
+// import logo from "../assets/droolslogo.jpg";
+import logo from "../assets/admin.png";
 
 interface TopbarProps {
   collapsed: boolean;

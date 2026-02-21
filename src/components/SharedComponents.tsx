@@ -104,11 +104,34 @@ interface PageHeaderProps {
   children?: React.ReactNode;
 }
 
+// export function PageHeader({ title, children }: PageHeaderProps) {
+//   return (
+//     <div className="bg-gradient-to-r from-blue-50/50 to-blue-100/30 px-6 py-4 flex items-center justify-between border-b border-gray-200 shadow-sm">
+//       <h1 className="text-xl font-semibold text-gray-800">{title}</h1>
+//       {children && <div className="flex items-center gap-3">{children}</div>}
+//     </div>
+//   );
+// }
+
+
 export function PageHeader({ title, children }: PageHeaderProps) {
   return (
-    <div className="bg-gradient-to-r from-blue-50/50 to-blue-100/30 px-6 py-4 flex items-center justify-between border-b border-gray-200 shadow-sm">
-      <h1 className="text-xl font-semibold text-gray-800">{title}</h1>
-      {children && <div className="flex items-center gap-3">{children}</div>}
+    <div className="bg-gradient-to-r from-blue-50/50 to-blue-100/30 px-6 py-4 border-b border-gray-200 shadow-sm">
+
+      {/* Top Row (optional title) */}
+      {title && (
+        <div className="mb-2">
+          <h1 className="text-xl font-semibold text-gray-800">{title}</h1>
+        </div>
+      )}
+
+      {/* Full-width Controls Row */}
+      {children && (
+        <div className="w-full">
+          {children}
+        </div>
+      )}
+
     </div>
   );
 }
