@@ -1113,7 +1113,7 @@ const USE_MOCK_DATA = true;
 const MOCK_FEATURES: PPEFeature[] = [
   { name: 'Helmet', enabled: true },
   { name: 'Gathering', enabled: true },
-  { name: 'Safety Gloves', enabled: false },
+  { name: 'Safety Gloves', enabled: true },
   { name: 'Safety Shoes', enabled: true },
   { name: 'Mask', enabled: true },
   { name: 'Running', enabled: true }
@@ -1142,8 +1142,9 @@ const MOCK_ALL_PPE_EVENTS: PPEEvent[] = [
   { id: 'EVT-007', featureDetected: 'Gathering', department: 'Welding' },
   { id: 'EVT-008', featureDetected: 'Safety Shoes', department: 'Chemical' },
   { id: 'EVT-009', featureDetected: 'Safety Gloves', department: 'Storage' },
-  { id: 'EVT-0010', featureDetected: 'Running', department: 'Storage' },
-  { id: 'EVT-0011', featureDetected: 'Mask', department: 'Assembly' },
+  { id: 'EVT-010', featureDetected: 'Running', department: 'Storage' },
+  { id: 'EVT-011', featureDetected: 'Mask', department: 'Assembly' },
+  { id: 'EVT-012', featureDetected: 'Helmet', department: 'Assembly' },
 ];
 
 const MOCK_DASHBOARD: DashboardData = {
@@ -1157,7 +1158,7 @@ const MOCK_DASHBOARD: DashboardData = {
     { name: 'Missing Running', value: 3 },
   ],
   departmentViolations: [
-    { department: 'Assembly', violations: 12 },
+    { department: 'Assembly', violations: 13 },
     { department: 'Welding', violations: 9 },
     { department: 'Packaging', violations: 7 },
     { department: 'Chemical', violations: 6 },
@@ -1257,7 +1258,7 @@ function useFilteredDashboard(
   dashboardData: DashboardData | null,
   allIncidents: Incident[],
   allPPEEvents: PPEEvent[],
-  features: PPEFeature[]
+  features: PPEFeature[],
 ) {
   return useMemo(() => {
     if (!dashboardData) return null;
@@ -1276,6 +1277,58 @@ function useFilteredDashboard(
       .filter(v => v.value > 0)
       .sort((a, b) => b.value - a.value);
 
+    // Build heatmap matrix
+    const departments = Array.from(new Set(filteredEvents.map(e => e.department)));
+
+    const heatmap: {
+      feature: string;
+      department: string;
+      value: number;
+      totalEvents: number;
+      totalIncidents: number;
+      openIncidents: number;
+      closedIncidents: number;
+    }[] = [];
+
+    enabledNames.forEach(feature => {
+      departments.forEach(dept => {
+
+        const eventsForCell = filteredEvents.filter(
+          e => e.featureDetected === feature && e.department === dept
+        );
+
+        const incidentsForCell = filteredIncidents.filter(
+          inc => inc.missingPPE.includes(feature)
+        );
+
+        const openIncidentsCount = incidentsForCell.filter(
+          i => i.status === "Open"
+        ).length;
+
+        const closedIncidentsCount = incidentsForCell.filter(
+          i => i.status === "Closed"
+        ).length;
+
+        const totalIncidents = incidentsForCell.length;
+
+        // Realistic safety score (simple formula)
+        const score = Math.max(
+          0,
+          100 - totalIncidents * 15
+        );
+
+        heatmap.push({
+          feature,
+          department: dept,
+          value: score,
+          totalEvents: eventsForCell.length,
+          totalIncidents,
+          openIncidents: openIncidentsCount,
+          closedIncidents: closedIncidentsCount
+        });
+      });
+    });
+
     const deptMap: Record<string, number> = {};
     filteredEvents.forEach(e => {
       deptMap[e.department] = (deptMap[e.department] || 0) + 1;
@@ -1287,6 +1340,8 @@ function useFilteredDashboard(
     return {
       kpis: { totalEvents: filteredEvents.length, openIncidents, closedIncidents },
       violationTypes,
+      heatmap,
+      departments,
       departmentViolations,
       noneEnabled,
     };
@@ -1373,13 +1428,36 @@ const formatDateTime = (dateTime: Date) => {
 // SECTION 7: MAIN PAGE COMPONENT
 // ============================================================
 
-export function SafetyCommandCenter() {
+export function SafetyAndHazard() {
   const { dashboardData, allIncidents, allPPEEvents, features, isLoading, isRefreshing, error, lastUpdated, refresh, retry, toggleFeature, enableAll, disableAll } = useDashboardData();
   const filtered = useFilteredDashboard(dashboardData, allIncidents, allPPEEvents, features);
   const [ppeConfigOpen, setPpeConfigOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [now, setNow] = useState(new Date());
+
+  //Heatmap 
+  // const [selectedCell, setSelectedCell] = useState<{
+  //   feature: string;
+  //   department: string;
+  //   value: number;
+  //   totalEvents: number;
+  //   totalIncidents: number;
+  //   openIncidents: number;
+  //   closedIncidents: number;
+  // } | null>(null);
+
+  const [tooltip, setTooltip] = useState<{
+    x: number;
+    y: number;
+    feature: string;
+    department: string;
+    value: number;
+    totalEvents: number;
+    totalIncidents: number;
+    openIncidents: number;
+    closedIncidents: number;
+  } | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 1000);
@@ -1590,6 +1668,127 @@ export function SafetyCommandCenter() {
               )}
             </div>
 
+            {/* PPE Safety Heatmap */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  PPE Safety Score Heatmap
+                </h3>
+                <span className="text-xs text-gray-400">
+                  Based on incidents & PPE events
+                </span>
+              </div>
+
+              {filtered.heatmap.length > 0 ? (
+                <div className="overflow-auto">
+                  <div
+                    className="grid gap-y-2 gap-x-2"
+                    style={{
+                      gridTemplateColumns: `180px repeat(${filtered.departments.length}, minmax(95px, 1fr))`
+                    }}
+                  >
+                    {/* Header */}
+                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide pb-2">
+                      PPE Feature
+                    </div>
+
+                    {filtered.departments.map(dept => (
+                      <div
+                        key={dept}
+                        className="text-xs font-semibold text-gray-500 uppercase tracking-wide text-center pb-2"
+                      >
+                        {dept}
+                      </div>
+                    ))}
+
+                    {/* Rows */}
+                    {features
+                      .filter(f => f.enabled)
+                      .map(feature => (
+                        <>
+                          {/* Feature Name */}
+                          <div className="flex items-center text-sm font-medium text-gray-700">
+                            {feature.name}
+                          </div>
+
+                          {/* Cells */}
+                          {filtered.departments.map(dept => {
+                            const cell = filtered.heatmap.find(
+                              h =>
+                                h.feature === feature.name &&
+                                h.department === dept
+                            );
+
+                            const value = cell?.value ?? 0;
+
+                            // Softer enterprise palette
+                            const bg =
+                              value >= 85
+                                ? "bg-emerald-500/90"
+                                : value >= 70
+                                ? "bg-yellow-400/90"
+                                : value >= 50
+                                ? "bg-orange-400/90"
+                                : value > 0
+                                ? "bg-red-500/90"
+                                : "bg-gray-100";
+
+                            return (
+                              <div
+                                key={feature.name + dept}
+                                // onClick={() => cell && setSelectedCell(cell)}
+                                onMouseEnter={(e) => {
+                                  if (!cell) return;
+
+                                  const rect = e.currentTarget.getBoundingClientRect();
+
+                                  setTooltip({
+                                    x: rect.left + rect.width / 2,
+                                    y: rect.top,
+                                    ...cell
+                                  });
+                                }}
+                                onMouseLeave={() => setTooltip(null)}
+                                className={`h-10 flex items-center justify-center rounded-lg text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03] hover:shadow-md cursor-pointer ${bg}`}
+                              >
+                                {value || "-"}
+                              </div>
+                            );
+                          })}
+                        </>
+                      ))}
+                  </div>
+                </div>
+              ) : (
+                <EmptyState message="No heatmap data available" />
+              )}
+
+              {/* Modern Legend */}
+              <div className="flex items-center gap-6 mt-8 text-xs text-gray-600">
+                <div className="font-medium text-gray-500">Risk Level</div>
+
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500" />
+                  Low
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-orange-400" />
+                  Medium
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                  Good
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                  Safe
+                </div>
+              </div>
+            </div>
+
             {/* Department Violations Chart */}
             <div className="bg-white rounded-lg p-5 shadow-sm">
               <h3 className="text-base font-semibold text-gray-800 mb-4">Department-wise Violations</h3>
@@ -1610,6 +1809,65 @@ export function SafetyCommandCenter() {
           </>
         ) : null}
       </div>
+
+      {/* {selectedCell && (
+  <div className="fixed bottom-6 right-6 bg-black/80 backdrop-blur-md text-white rounded-xl p-5 w-72 shadow-2xl z-50">
+    
+    <div className="text-sm font-semibold mb-2">
+      {selectedCell.feature} - {selectedCell.department}
+    </div>
+
+    <div className="space-y-1 text-sm">
+      <div>
+        Safety Score: <span className="font-bold">{selectedCell.value}%</span>
+      </div>
+
+      <div>Total Events: {selectedCell.totalEvents}</div>
+
+      <div>Total Incidents: {selectedCell.totalIncidents}</div>
+
+      <div>Open Incidents: {selectedCell.openIncidents}</div>
+
+      <div>Closed Incidents: {selectedCell.closedIncidents}</div>
+    </div>
+
+    <button
+      onClick={() => setSelectedCell(null)}
+      className="mt-3 w-full bg-white text-black text-sm font-medium py-2 rounded-lg"
+    >
+      Close
+    </button>
+  </div>
+)} */}
+
+{tooltip && (
+  <div
+    className="fixed z-50 bg-gray-900 text-white text-xs rounded-xl px-4 py-3 shadow-2xl pointer-events-none w-64 transition-opacity duration-150"
+    style={{
+      top: tooltip.y - 10,
+      left: tooltip.x,
+      transform: "translate(-50%, -100%)"
+    }}
+  >
+    <div className="font-semibold text-sm mb-2">
+      {tooltip.feature} - {tooltip.department}
+    </div>
+
+    <div className="space-y-1 text-gray-300">
+      <div>
+        Safety Score:
+        <span className="text-white font-bold ml-1">
+          {tooltip.value}%
+        </span>
+      </div>
+
+      <div>Total Events: {tooltip.totalEvents}</div>
+      <div>Total Incidents: {tooltip.totalIncidents}</div>
+      <div>Open Incidents: {tooltip.openIncidents}</div>
+      <div>Closed Incidents: {tooltip.closedIncidents}</div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

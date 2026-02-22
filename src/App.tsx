@@ -490,7 +490,7 @@ import PdfWait from "./pages/PdfWait";
 import UserProfile from "./pages/UserProfile";
 import AvailabilityDashboard from "./pages/AvailabilityDashboard";
 import PersonDetail from './pages/PersonDetail';
-import { SafetyCommandCenter } from "./pages/SafetyCommandCenter";
+import { SafetyAndHazard } from "./pages/SafetyAndHazard";
 import { SystemPerformanceDashboard } from "./pages/SystemPerformanceDashboard";
 import { VehicleLogisticsDashboard } from "./pages/VehicleLogisticsDashboard";
 import { SurveillanceDashboard } from "./pages/Attendence";
@@ -550,7 +550,7 @@ const App: React.FC = () => {
           <Route path="/camera" element={<Camera />} />
           <Route path="/surveillance" element={<Surveillance />} />
           <Route path="/live-stream" element={<LiveStreamPage />} />
-          <Route path="/safety-command" element={<SafetyCommandCenter/>} />
+          <Route path="/safety" element={<SafetyAndHazard/>} />
           <Route path="/system-performance" element={<SystemPerformanceDashboard/>} />
           <Route path="/vehicle-logistics" element={<VehicleLogisticsDashboard/>} />
           <Route path="/attendence" element={<SurveillanceDashboard/>} />

@@ -32,11 +32,11 @@ const Topbar: React.FC<TopbarProps> = ({
     "/surveillance": "Surveillance Dashboard",
     "/administration": "Admin Panel",
     "/attendence": "Security and Attendence Monitoring",
-    "/safety-command": "Safety Command Center",
+    "/safety": "Safety & Hazard Monitoring",
     "/vehicle-logistics": "Vehicle & Logistics Dashboard",
     "/system-performance": "System Performance",
     "/central-command": "Central Command",
-    "/camera" : "Camera Management",
+    "/camera" : "Camera Management", 
   };
 
   const currentPath = location.pathname;

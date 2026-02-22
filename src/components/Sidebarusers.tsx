@@ -600,11 +600,11 @@ const navItems = [
   { label: "Central Command", key: "/central-command", Icon: MdOutlineGroup },
   { label: "Admin", key: "/administration", Icon: MdOutlineGroup },
   { label: "Surveillance", key: "/surveillance", Icon: MdOutlineGroup },
-
+ 
   
   { label: "Station Report", key: "/station", Icon: MdOutlineGroup },
   { label: "Attendance Monitoring", key: "/attendence", Icon: MdOutlineGroup },
-  { label: "Safety Command Center", key: "/safety-command", Icon: MdOutlineGroup },
+  { label: "Safety & Hazard Monitoring", key: "/safety", Icon: MdOutlineGroup },
   { label: "Vehicle Logistics", key: "/vehicle-logistics", Icon: MdOutlineGroup },
   { label: "System Performance", key: "/system-performance", Icon: MdOutlineGroup },
   { label: "Camera Management", key: "/camera", Icon: MdOutlineGroup },
