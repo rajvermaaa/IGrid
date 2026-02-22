@@ -134,7 +134,7 @@ export function PageHeader({ title, children }: PageHeaderProps) {
 
     </div>
   );
-}
+} 
 
 interface PPEIndicatorProps {
   items: Array<{ name: string; missing: boolean }>;

@@ -4,9 +4,9 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Search, Plus, TrendingUp, AlertCircle, Circle,
-  Eye, Clock, Truck, Car, X, ChevronRight, User, RefreshCw, AlertOctagon, ArrowLeft
+  Eye, Clock, Truck, Car, X, ChevronRight, User, RefreshCw, AlertOctagon,
 } from 'lucide-react';
-import { KPICard, PageHeader } from '../components/SharedComponents';
+import { KPICard,  } from '../components/SharedComponents';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer
@@ -588,7 +588,7 @@ function Modal({
             </div>
             <h2 className="text-xl font-bold text-gray-900">{title}</h2>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors" title='Refresh'>
             <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>

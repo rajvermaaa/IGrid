@@ -537,6 +537,7 @@ export function SystemPerformanceDashboard() {
               onClick={refresh}
               disabled={isRefreshing}
               className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+              title='Refresh'
             >
               <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
             </button>
@@ -592,6 +593,7 @@ export function SystemPerformanceDashboard() {
                     <button
                       onClick={() => setDismissedAlerts(prev => new Set(prev).add('latency'))}
                       className="text-red-700 hover:text-red-900"
+                      title='Refresh'
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -607,6 +609,7 @@ export function SystemPerformanceDashboard() {
                     <button
                       onClick={() => setDismissedAlerts(prev => new Set(prev).add('error'))}
                       className="text-yellow-700 hover:text-yellow-900"
+                      title='Refresh'
                     >
                       <X className="w-4 h-4" />
                     </button>
