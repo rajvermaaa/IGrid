@@ -469,6 +469,46 @@ const formatDateTime = (dateTime: Date) => {
     second: '2-digit',
   }); 
 };
+
+import { Sector } from "recharts";
+
+const renderActiveShape = (props: any) => {
+  const {
+    cx, cy, midAngle, innerRadius, outerRadius,
+    startAngle, endAngle, fill, percent
+  } = props;
+
+  const RADIAN = Math.PI / 180;
+  const sin = Math.sin(-RADIAN * midAngle);
+  const cos = Math.cos(-RADIAN * midAngle);
+
+  return (
+    <g>
+      {/* Slightly bigger slice (highlight / exploded) */}
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius + 6}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
+
+      {/* Percent inside slice ONLY */}
+      <text
+        x={cx + outerRadius * 0.55 * cos}
+        y={cy + outerRadius * 0.55 * sin}
+        textAnchor="middle"
+        dominantBaseline="central"
+        fill="white"
+        fontWeight="600"
+      >
+        {(percent * 100).toFixed(0)}%
+      </text>
+    </g>
+  );
+};
 // ============================================================
 // SECTION 7: MAIN PAGE COMPONENT
 // ============================================================
@@ -810,21 +850,24 @@ export function SafetyAndHazard() {
                       }}
                     /> */}
 
-                   <Legend
+ <Legend
   layout="vertical"
   align="right"
   verticalAlign="middle"
-  iconSize={0}   // ❌ hide default bullet
+  iconSize={0}   // hide default bullet (since you draw custom)
   wrapperStyle={{
     paddingLeft: "10px",
     lineHeight: "20px",
     fontSize: "15px",
-    minWidth: "160px"
+    minWidth: "170px"
   }}
   formatter={(value: string, entry: any, index: number) => {
     const isActive = index === activePieIndex;
-    const color = PIE_COLORS[index % PIE_COLORS.length];
     const item = filtered.violationTypes[index];
+    const color = PIE_COLORS[index % PIE_COLORS.length];
+
+    const total = filtered.violationTypes.reduce((a, b) => a + b.value, 0);
+    const percent = total ? ((item.value / total) * 100).toFixed(0) : 0;
 
     return (
       <span
@@ -833,12 +876,12 @@ export function SafetyAndHazard() {
           alignItems: "center",
           gap: "6px",
           fontWeight: isActive ? 600 : 400,
-          color: isActive ? color : "#6b7280",
+          color: isActive ? color : "#374151",
           opacity: activePieIndex === null || isActive ? 1 : 0.35,
           transition: "all 0.15s ease"
         }}
       >
-        {/* Single custom bullet */}
+        {/* Custom color bullet synced with pie */}
         <span
           style={{
             width: 10,
@@ -849,37 +892,36 @@ export function SafetyAndHazard() {
           }}
         />
 
-        {value}
-        {isActive && item ? ` : ${item.value}` : ""}
+        {/* ALWAYS show full data (no hover required) */}
+        {value} : <b>{item.value}</b> ({percent}%)
       </span>
     );
   }}
 />
 
                  <Pie
-                  data={filtered.violationTypes}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="35%"
-                  cy="50%"
-                  outerRadius={100}
-                  paddingAngle={2}
-                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
-                  onMouseEnter={(_, index) => setActivePieIndex(index)}
-                  onMouseLeave={() => setActivePieIndex(null)}
-                >
-                  {filtered.violationTypes.map((entry, index) => (
-                    <Cell
-                      key={index}
-                      fill={PIE_COLORS[index % PIE_COLORS.length]}
-                      opacity={
-                        activePieIndex === null || activePieIndex === index ? 1 : 0.35
-                      }
-                      stroke={activePieIndex === index ? "#111827" : "none"}   // optional highlight
-                      strokeWidth={activePieIndex === index ? 2 : 0}
-                    />
-                  ))}
-              </Pie>
+  data={filtered.violationTypes}
+  dataKey="value"
+  nameKey="name"
+  cx="40%"
+  cy="50%"
+  outerRadius={100}
+  paddingAngle={2}
+  activeIndex={activePieIndex}
+  activeShape={renderActiveShape}
+  onMouseEnter={(_, index) => setActivePieIndex(index)}
+  onMouseLeave={() => setActivePieIndex(null)}
+>
+  {filtered.violationTypes.map((entry, index) => (
+    <Cell
+      key={index}
+      fill={PIE_COLORS[index % PIE_COLORS.length]}
+      opacity={
+        activePieIndex === null || activePieIndex === index ? 1 : 0.35
+      }
+    />
+  ))}
+</Pie>
                   </PieChart>
                 </ResponsiveContainer>
               ) : (
