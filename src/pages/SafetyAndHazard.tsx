@@ -96,33 +96,78 @@ const MOCK_FEATURES: PPEFeature[] = [
 
 const MOCK_INCIDENTS: Incident[] = [
   { id: 'INC-001', missingPPE: ['Helmet'], status: 'Open' },
-  { id: 'INC-002', missingPPE: ['Gathering'], status: 'Open' },
-  { id: 'INC-003', missingPPE: ['Safety Gloves'], status: 'Closed' },
-  { id: 'INC-004', missingPPE: ['Helmet', 'Gathering'], status: 'Open' },
-  { id: 'INC-005', missingPPE: ['Safety Shoes'], status: 'Closed' },
+  { id: 'INC-002', missingPPE: ['Helmet'], status: 'Closed' },
+  { id: 'INC-003', missingPPE: ['Helmet'], status: 'Open' },
+
+  { id: 'INC-004', missingPPE: ['Gathering'], status: 'Open' },
+  { id: 'INC-005', missingPPE: ['Gathering'], status: 'Closed' },
+
   { id: 'INC-006', missingPPE: ['Safety Gloves'], status: 'Open' },
-  { id: 'INC-007', missingPPE: ['Helmet'], status: 'Open' },
-  { id: 'INC-008', missingPPE: ['Running'], status: 'Closed' },
-  { id: 'INC-009', missingPPE: ['Mask'], status: 'Closed' },
-  { id: 'INC-010', missingPPE: ['Running'], status: 'Open' },
+  { id: 'INC-007', missingPPE: ['Safety Gloves'], status: 'Closed' },
+
+  { id: 'INC-008', missingPPE: ['Safety Shoes'], status: 'Closed' },
+  { id: 'INC-009', missingPPE: ['Safety Shoes'], status: 'Open' },
+
+  { id: 'INC-010', missingPPE: ['Mask'], status: 'Closed' },
+  { id: 'INC-011', missingPPE: ['Mask'], status: 'Open' },
+
+  { id: 'INC-012', missingPPE: ['Running'], status: 'Closed' },
 ];
 
 const MOCK_ALL_PPE_EVENTS: PPEEvent[] = [
+  // Helmet (12)
   { id: 'EVT-001', featureDetected: 'Helmet', department: 'Assembly' },
-  { id: 'EVT-002', featureDetected: 'Gathering', department: 'Welding' },
-  { id: 'EVT-003', featureDetected: 'Safety Shoes', department: 'Storage' },
-  { id: 'EVT-004', featureDetected: 'Helmet', department: 'Chemical' },
-  { id: 'EVT-005', featureDetected: 'Safety Gloves', department: 'Packaging' },
-  { id: 'EVT-006', featureDetected: 'Helmet', department: 'Maintenance' },
-  { id: 'EVT-007', featureDetected: 'Mask', department: 'Quality Control' },
-  { id: 'EVT-008', featureDetected: 'Running', department: 'Logistics' },
-  { id: 'EVT-009', featureDetected: 'Safety Gloves', department: 'Warehouse' },
-  { id: 'EVT-010', featureDetected: 'Helmet', department: 'Electrical' },
-  { id: 'EVT-011', featureDetected: 'Mask', department: 'Production Line 1' },
-  { id: 'EVT-012', featureDetected: 'Safety Shoes', department: 'Production Line 2' },
-  { id: 'EVT-013', featureDetected: 'Helmet', department: 'Assembly' },
-  { id: 'EVT-014', featureDetected: 'Helmet', department: 'Assembly' },
-  { id: 'EVT-015', featureDetected: 'Safety Gloves', department: 'Warehouse' },
+  { id: 'EVT-002', featureDetected: 'Helmet', department: 'Welding' },
+  { id: 'EVT-003', featureDetected: 'Helmet', department: 'Packaging' },
+  { id: 'EVT-004', featureDetected: 'Helmet', department: 'Warehouse' },
+  { id: 'EVT-005', featureDetected: 'Helmet', department: 'Maintenance' },
+  { id: 'EVT-006', featureDetected: 'Helmet', department: 'Quality' },
+  { id: 'EVT-007', featureDetected: 'Helmet', department: 'Assembly' },
+  { id: 'EVT-008', featureDetected: 'Helmet', department: 'Welding' },
+  { id: 'EVT-009', featureDetected: 'Helmet', department: 'Packaging' },
+  { id: 'EVT-010', featureDetected: 'Helmet', department: 'Warehouse' },
+  { id: 'EVT-011', featureDetected: 'Helmet', department: 'Maintenance' },
+  { id: 'EVT-012', featureDetected: 'Helmet', department: 'Quality' },
+
+  // Gathering (8)
+  { id: 'EVT-013', featureDetected: 'Gathering', department: 'Assembly' },
+  { id: 'EVT-014', featureDetected: 'Gathering', department: 'Welding' },
+  { id: 'EVT-015', featureDetected: 'Gathering', department: 'Packaging' },
+  { id: 'EVT-016', featureDetected: 'Gathering', department: 'Warehouse' },
+  { id: 'EVT-017', featureDetected: 'Gathering', department: 'Maintenance' },
+  { id: 'EVT-018', featureDetected: 'Gathering', department: 'Quality' },
+  { id: 'EVT-019', featureDetected: 'Gathering', department: 'Assembly' },
+  { id: 'EVT-020', featureDetected: 'Gathering', department: 'Welding' },
+
+  // Safety Gloves (7)
+  { id: 'EVT-021', featureDetected: 'Safety Gloves', department: 'Assembly' },
+  { id: 'EVT-022', featureDetected: 'Safety Gloves', department: 'Welding' },
+  { id: 'EVT-023', featureDetected: 'Safety Gloves', department: 'Packaging' },
+  { id: 'EVT-024', featureDetected: 'Safety Gloves', department: 'Warehouse' },
+  { id: 'EVT-025', featureDetected: 'Safety Gloves', department: 'Maintenance' },
+  { id: 'EVT-026', featureDetected: 'Safety Gloves', department: 'Quality' },
+  { id: 'EVT-027', featureDetected: 'Safety Gloves', department: 'Assembly' },
+
+  // Safety Shoes (6)
+  { id: 'EVT-028', featureDetected: 'Safety Shoes', department: 'Assembly' },
+  { id: 'EVT-029', featureDetected: 'Safety Shoes', department: 'Welding' },
+  { id: 'EVT-030', featureDetected: 'Safety Shoes', department: 'Packaging' },
+  { id: 'EVT-031', featureDetected: 'Safety Shoes', department: 'Warehouse' },
+  { id: 'EVT-032', featureDetected: 'Safety Shoes', department: 'Maintenance' },
+  { id: 'EVT-033', featureDetected: 'Safety Shoes', department: 'Quality' },
+
+  // Mask (5)
+  { id: 'EVT-034', featureDetected: 'Mask', department: 'Assembly' },
+  { id: 'EVT-035', featureDetected: 'Mask', department: 'Welding' },
+  { id: 'EVT-036', featureDetected: 'Mask', department: 'Packaging' },
+  { id: 'EVT-037', featureDetected: 'Mask', department: 'Warehouse' },
+  { id: 'EVT-038', featureDetected: 'Mask', department: 'Maintenance' },
+
+  // Running (4)
+  { id: 'EVT-039', featureDetected: 'Running', department: 'Assembly' },
+  { id: 'EVT-040', featureDetected: 'Running', department: 'Welding' },
+  { id: 'EVT-041', featureDetected: 'Running', department: 'Packaging' },
+  { id: 'EVT-042', featureDetected: 'Running', department: 'Warehouse' },
 ];
 
 const MOCK_DASHBOARD: DashboardData = {
@@ -449,6 +494,7 @@ export function SafetyAndHazard() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [now, setNow] = useState(new Date());
   const [activeCell, setActiveCell] = useState<string | null>(null);
+  const [activePieIndex, setActivePieIndex] = useState<number | null>(null);
   
 
   //Heatmap
@@ -652,7 +698,7 @@ export function SafetyAndHazard() {
                   <div
                     className="grid border border-gray-200"
                     style={{
-                      gridTemplateColumns: `200px repeat(${filtered.departments.length}, 80px)`
+                      gridTemplateColumns: `200px repeat(${filtered.departments.length}, 100px)`
                     }}
                   >
                     {/* Header Row */}
@@ -755,42 +801,85 @@ export function SafetyAndHazard() {
               {filtered.violationTypes.length > 0 ? (
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
-                    <Tooltip
+                    {/* <Tooltip
                       contentStyle={{
                         backgroundColor: "#fff",
                         border: "1px solid #e5e7eb",
                         borderRadius: "8px",
                         boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
                       }}
-                    />
+                    /> */}
 
-                    <Legend
-                      layout="vertical"
-                      align="right"
-                      verticalAlign="middle"
-                      iconSize={10}
-                      wrapperStyle={{
-                        paddingLeft: "6px",   // ↓ reduce space (was 20px)
-                        lineHeight: "18px",
-                        fontSize: "15px"
-                      }}
-                    />
+                   <Legend
+  layout="vertical"
+  align="right"
+  verticalAlign="middle"
+  iconSize={0}   // ❌ hide default bullet
+  wrapperStyle={{
+    paddingLeft: "10px",
+    lineHeight: "20px",
+    fontSize: "15px",
+    minWidth: "160px"
+  }}
+  formatter={(value: string, entry: any, index: number) => {
+    const isActive = index === activePieIndex;
+    const color = PIE_COLORS[index % PIE_COLORS.length];
+    const item = filtered.violationTypes[index];
 
-                    <Pie
-                      data={filtered.violationTypes}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="40%"
-                      cy="50%"
-                      outerRadius={100}
-                      innerRadius={0}
-                      paddingAngle={2}
-                      label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
-                    >
-                      {filtered.violationTypes.map((entry, index) => (
-                        <Cell key={index} fill={PIE_COLORS[index % PIE_COLORS.length]} />
-                      ))}
-                    </Pie>
+    return (
+      <span
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "6px",
+          fontWeight: isActive ? 600 : 400,
+          color: isActive ? color : "#6b7280",
+          opacity: activePieIndex === null || isActive ? 1 : 0.35,
+          transition: "all 0.15s ease"
+        }}
+      >
+        {/* Single custom bullet */}
+        <span
+          style={{
+            width: 10,
+            height: 10,
+            borderRadius: 2,
+            backgroundColor: color,
+            display: "inline-block"
+          }}
+        />
+
+        {value}
+        {isActive && item ? ` : ${item.value}` : ""}
+      </span>
+    );
+  }}
+/>
+
+                 <Pie
+                  data={filtered.violationTypes}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="35%"
+                  cy="50%"
+                  outerRadius={100}
+                  paddingAngle={2}
+                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+                  onMouseEnter={(_, index) => setActivePieIndex(index)}
+                  onMouseLeave={() => setActivePieIndex(null)}
+                >
+                  {filtered.violationTypes.map((entry, index) => (
+                    <Cell
+                      key={index}
+                      fill={PIE_COLORS[index % PIE_COLORS.length]}
+                      opacity={
+                        activePieIndex === null || activePieIndex === index ? 1 : 0.35
+                      }
+                      stroke={activePieIndex === index ? "#111827" : "none"}   // optional highlight
+                      strokeWidth={activePieIndex === index ? 2 : 0}
+                    />
+                  ))}
+              </Pie>
                   </PieChart>
                 </ResponsiveContainer>
               ) : (
@@ -807,15 +896,21 @@ export function SafetyAndHazard() {
 
               {filtered.departmentViolations.length > 0 ? (
                 <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={filtered.departmentViolations}>
+                  {/* <BarChart data={filtered.departmentViolations}> */}
+                  <BarChart
+                    data={filtered.departmentViolations}
+                    margin={{ top: 30, right: 20, left: 10, bottom: 20 }}
+>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
 
                     <XAxis
                       dataKey="department"
-                      tick={{ fontSize: 11 }}
-                      angle={-20}
+                      interval={0}
+                      angle={-90}
                       textAnchor="end"
-                      height={60}
+                      height={100}
+                      tickMargin={35}
+                      tick={{ fontSize: 12 }}
                     />
 
                     <YAxis tick={{ fontSize: 12 }} />
