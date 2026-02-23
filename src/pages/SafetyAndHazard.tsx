@@ -113,13 +113,16 @@ const MOCK_ALL_PPE_EVENTS: PPEEvent[] = [
   { id: 'EVT-003', featureDetected: 'Safety Shoes', department: 'Storage' },
   { id: 'EVT-004', featureDetected: 'Helmet', department: 'Chemical' },
   { id: 'EVT-005', featureDetected: 'Safety Gloves', department: 'Packaging' },
-  { id: 'EVT-006', featureDetected: 'Helmet', department: 'Assembly' },
-  { id: 'EVT-007', featureDetected: 'Gathering', department: 'Welding' },
-  { id: 'EVT-008', featureDetected: 'Safety Shoes', department: 'Chemical' },
-  { id: 'EVT-009', featureDetected: 'Safety Gloves', department: 'Storage' },
-  { id: 'EVT-010', featureDetected: 'Running', department: 'Storage' },
-  { id: 'EVT-011', featureDetected: 'Mask', department: 'Assembly' },
-  { id: 'EVT-012', featureDetected: 'Helmet', department: 'Assembly' },
+  { id: 'EVT-006', featureDetected: 'Helmet', department: 'Maintenance' },
+  { id: 'EVT-007', featureDetected: 'Mask', department: 'Quality Control' },
+  { id: 'EVT-008', featureDetected: 'Running', department: 'Logistics' },
+  { id: 'EVT-009', featureDetected: 'Safety Gloves', department: 'Warehouse' },
+  { id: 'EVT-010', featureDetected: 'Helmet', department: 'Electrical' },
+  { id: 'EVT-011', featureDetected: 'Mask', department: 'Production Line 1' },
+  { id: 'EVT-012', featureDetected: 'Safety Shoes', department: 'Production Line 2' },
+  { id: 'EVT-013', featureDetected: 'Helmet', department: 'Assembly' },
+  { id: 'EVT-014', featureDetected: 'Helmet', department: 'Assembly' },
+  { id: 'EVT-015', featureDetected: 'Safety Gloves', department: 'Warehouse' },
 ];
 
 const MOCK_DASHBOARD: DashboardData = {
@@ -249,6 +252,11 @@ function useDashboardData(selectedDate: string) {
 // SECTION 5: PPE-FILTERED COMPUTED DASHBOARD
 // ============================================================
 
+function getRandomSafetyScore() {
+  return Math.floor(Math.random() * 51) + 50; 
+  // Range: 50 → 100 (realistic safety score)
+}
+
 function useFilteredDashboard(
   dashboardData: DashboardData | null,
   allIncidents: Incident[],
@@ -307,10 +315,7 @@ function useFilteredDashboard(
         const totalIncidents = incidentsForCell.length;
 
         // Realistic safety score (simple formula)
-        const score = Math.max(
-          0,
-          100 - totalIncidents * 15
-        );
+        const score = getRandomSafetyScore();
 
         heatmap.push({
           feature,
@@ -427,6 +432,16 @@ export function SafetyAndHazard() {
   const [selectedDate, setSelectedDate] = useState(() =>
     new Date().toISOString().slice(0, 10)
   );
+  const PIE_COLORS = [
+    "#e11d48", // red
+    "#2563eb", // blue
+    "#16a34a", // green
+    "#f59e0b", // amber
+    "#7c3aed", // purple
+    "#92400e", // brown
+    "#0891b2", // cyan
+    "#be123c", // dark red
+  ];
   const { dashboardData, allIncidents, allPPEEvents, features, isLoading, isRefreshing, error, lastUpdated, refresh, retry, toggleFeature, enableAll, disableAll } = useDashboardData(selectedDate);
   const filtered = useFilteredDashboard(dashboardData, allIncidents, allPPEEvents, features);
   const [ppeConfigOpen, setPpeConfigOpen] = useState(false);
@@ -749,36 +764,32 @@ export function SafetyAndHazard() {
                       }}
                     />
 
-                    <Legend verticalAlign="bottom" wrapperStyle={{
-                        fontSize: "12px",
-                        paddingTop: "8px"
-                      }} 
+                    <Legend
+                      layout="vertical"
+                      align="right"
+                      verticalAlign="middle"
+                      iconSize={10}
+                      wrapperStyle={{
+                        paddingLeft: "6px",   // ↓ reduce space (was 20px)
+                        lineHeight: "18px",
+                        fontSize: "15px"
+                      }}
                     />
 
                     <Pie
                       data={filtered.violationTypes}
                       dataKey="value"
                       nameKey="name"
-                      cx="50%"
-                      cy="45%"
+                      cx="40%"
+                      cy="50%"
                       outerRadius={100}
-                      innerRadius={45}
+                      innerRadius={0}
                       paddingAngle={2}
                       label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                     >
-                      {filtered.violationTypes.map((entry, index) => {
-                        const colors = [
-                          "#ef4444",
-                          "#f97316",
-                          "#eab308",
-                          "#22c55e",
-                          "#3b82f6",
-                          "#a855f7"
-                        ];
-                        return (
-                          <Cell key={index} fill={colors[index % colors.length]} />
-                        );
-                      })}
+                      {filtered.violationTypes.map((entry, index) => (
+                        <Cell key={index} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                      ))}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
