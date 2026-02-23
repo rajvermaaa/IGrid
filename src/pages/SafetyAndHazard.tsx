@@ -481,7 +481,7 @@ export function SafetyAndHazard() {
             <span>Last updated: {formatLastUpdated()}</span>
           </div>
         </PageHeader>
-        <div className="flex-1 overflow-auto p-4 sm:p-6">
+        <div className="flex-1 overflow-auto p-3 sm:p-6">
           <ErrorState message={error} onRetry={retry} />
         </div>
       </div>
@@ -491,10 +491,10 @@ export function SafetyAndHazard() {
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
           <PageHeader>
-        <div className="flex flex-wrap items-center justify-between gap-3 w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full">
 
           {/* ───────── LEFT SIDE ───────── */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3">
 
             {/* PPE Configuration Dropdown */}
             <div className="relative">
@@ -604,7 +604,7 @@ export function SafetyAndHazard() {
       </PageHeader> 
 
       {/* Body */}
-      <div className="flex-1 overflow-auto p-4 sm:p-6">
+      <div className="flex-1 overflow-auto p-3 sm:p-6">
         {isLoading && !dashboardData ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">{[...Array(3)].map((_, i) => <SkeletonKPICard key={i} />)}</div>
@@ -729,10 +729,10 @@ export function SafetyAndHazard() {
 
 
             {/* Charts Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6">
 
             {/* ───────── PIE CHART ───────── */}
-            <div className="bg-white rounded-lg p-5 shadow-sm">
+            <div className="bg-white rounded-lg p-4 sm:p-5 shadow-sm">
               <h3 className="text-base font-semibold text-gray-800 mb-4">
                 Most Frequent Violation Types
               </h3>
@@ -749,7 +749,11 @@ export function SafetyAndHazard() {
                       }}
                     />
 
-                    <Legend verticalAlign="bottom" height={36} />
+                    <Legend verticalAlign="bottom" wrapperStyle={{
+                        fontSize: "12px",
+                        paddingTop: "8px"
+                      }} 
+                    />
 
                     <Pie
                       data={filtered.violationTypes}
@@ -785,7 +789,7 @@ export function SafetyAndHazard() {
 
 
             {/* ───────── BAR CHART ───────── */}
-            <div className="bg-white rounded-lg p-5 shadow-sm">
+            <div className="bg-white rounded-lg p-4 sm:p-5 shadow-sm">
               <h3 className="text-base font-semibold text-gray-800 mb-4">
                 Department-wise Violations
               </h3>
@@ -797,10 +801,10 @@ export function SafetyAndHazard() {
 
                     <XAxis
                       dataKey="department"
-                      tick={{ fontSize: 12 }}
-                      angle={-15}
+                      tick={{ fontSize: 11 }}
+                      angle={-20}
                       textAnchor="end"
-                      height={70}
+                      height={60}
                     />
 
                     <YAxis tick={{ fontSize: 12 }} />
